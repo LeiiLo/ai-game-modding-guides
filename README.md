@@ -1,9 +1,9 @@
 # AI Game Modding Guides
 
-Beginner guides for two kinds of project, both built with an AI coding agent:
+Guides for two kinds of projects, both built with an AI coding agent via a harness:
 
-- **Passthrough mods:** two games running at once and linked together, like SkyCraft (Minecraft inside Skyrim).
-- **Rust rewrites and ports:** rebuilding a game's engine in Rust so it reads data from your own copy, like hl2-rs.
+- **Passthrough mods:** two games running at once and linked together, like [SkyCraft](https://github.com/chasmlol/SkyCraft) (Minecraft inside Skyrim).
+- **Rust rewrites and ports:** rebuilding a game's engine in Rust so it reads data from your own copy, like [hl2-rs](https://github.com/kvalls/hl2-rs).
 
 These guides answer the questions people asked on the Discord. If something is missing or wrong, [open an issue](CONTRIBUTING.md) or send a pull request.
 
@@ -12,29 +12,29 @@ Worth saying up front: everyone has their own methods, prompting style, and work
 [![Licence: MIT](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
 [![Contributing welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/ccFpNC26Ts)
-[![Single-player and offline games only](https://img.shields.io/badge/scope-single-player%20%26%20offline%20games%20you%20own-lightgrey.svg)](guides/06-rules-legal-and-publishing.md)
 
 > **Status:** draft. Tools, models, plan limits, and mod loaders change fast. Verify a detail before you rely on it.
 >
 > **Single-player and offline games you own only.** Nothing here covers anti-cheat, DRM, or online play. See [the rules](guides/06-rules-legal-and-publishing.md).
 >
-> **Windows.** Every example project here targets Windows. hl2-rs says other systems are unverified.
+> **Platform.** Most passthrough mods are targeted at Windows builds of games and they are not guaranteed to work on games running through Wine/Proton (if anyone has done this or found a way around it, please do let us know!).
+> Rust rewrites will work on Linux and Mac, the project just has to be built for your specific OS.
 
 ## Start here
 
 Never done this before? Read **[Start here](guides/00-start-here.md)**.
 
-Want an answer rather than a read? Go to the **[FAQ](guides/07-faq.md)**.
+Have a question you haven't seen answered yet? Go to the **[FAQ](guides/07-faq.md)**.
 
 ## The short version
 
-1. **Use an AI agent, not a chat website.** An agent (Claude Code, Codex, OpenCode, and others) runs on your PC, reads your game folders, writes files, and runs builds. A browser chat can't do that.
+1. **Use an AI agent through a harness, not a chat website.** A harness (Claude Code, Codex, OpenCode, and others) runs on your PC (using the API provided by your AI provider), reads your game folders, writes and edits files, and runs builds. The browser versions of AI do not have access to files on your PC, so it is much easier to use the Agent through a harness.
 2. **Check whether your game has a mod loader.** This decides whether your idea is realistic. See [guide 8](guides/08-mod-loaders-and-script-extenders.md).
 3. **Install the games first.** The agent finds the files itself, so you don't upload anything.
-4. **Point it at an example project** (SkyCraft for passthrough, hl2-rs for rewrites) and tell it what you want.
+4. **Point it at an example project** ([SkyCraft](https://github.com/chasmlol/SkyCraft) for passthrough, [hl2-rs](https://github.com/kvalls/hl2-rs) for rewrites) and tell it what you want.
 5. **Expect many rounds.** The first prompt rarely finishes the job. You playtest, report what happened, and the agent fixes it.
 6. **Never commit game files.** Your repo holds your code only. Players use their own copies.
-7. **DRM and anti-cheat software will very often go untouched by an Agent.** Similarly, only-online games are a no-go for Agents. We don't condone the circumvention of these Agent guardrails, piracy, or DRM circumvention.
+7. **DRM and anti-cheat software will very often go be left alone by an Agent.** Similarly, online-only games are a no-go for Agents. We don't condone the circumvention of Agent guardrails, piracy, or DRM.
 
 ## Guides
 
@@ -80,15 +80,13 @@ Finished open-source engine reimplementations, if you want to see what the long 
 
 ## Who these guides are for
 
-People who have never written code and want to try something anyway. You don't need to be a programmer to start, and you don't need Rust or reverse engineering either.
+People who have never written code and want to try something anyway. You don't need to be a programmer to start, and you don't need Rust or reverse engineering either. Do keep in mind, having knowledge and experience will get you a long way.
 
-You do need to be willing to describe problems clearly and to spend most of your time playtesting and reporting back. That is the job.
-
-You also need Windows. Every project these guides point at is Windows-only, and hl2-rs says other systems are unverified. On Linux, run the Windows build under Wine or Proton and expect to debug it yourself.
+You do need to be willing to describe problems clearly and to spend most of your time playtesting and reporting back.
 
 ## Get help
 
-Guides can only cover so much. For anything specific to your setup, ask in **#support-help** on the [chasm server](https://discord.gg/ccFpNC26Ts). That's where people post problems, and where the answers get turned into better guides.
+Guides can only cover so much. For anything specific to your setup, ask in **#support-help** or post your project in the **#share-your-projects** channel on the [chasm server](https://discord.gg/ccFpNC26Ts). That's where people post problems and projects.
 
 Include your games and exact versions, the loaders, the agent and model, what you tried, and the logs. If the chat got stuck, the `STATUS.md` trick in [guide 4](guides/04-prompting-and-workflow.md#the-handoff-trick-for-stuck-chats) writes most of that for you.
 
@@ -98,25 +96,20 @@ Corrections to the guides themselves are better as a pull request. See [CONTRIBU
 
 Nobody has settled these. If you know the answer, post it on the Discord:
 
-- Does a detailed prompt or a short loose one work better? [Both camps are quoted here.](guides/04-prompting-and-workflow.md#the-prompting-debate-as-members-put-it)
+- Does a detailed prompt or a short, loose one work better? [Both camps are quoted here.](guides/04-prompting-and-workflow.md#the-prompting-debate-as-members-put-it)
 - Which free model can finish a project?
 - How do you handle Unreal Engine games?
-- Can local models handle a real project on a 12 GB GPU?
 
 ## Contributing
 
 Experienced developers are welcome. Technical write-ups, corrections, dead ends worth documenting, and workflow examples all help.
 
-To fix a typo or a broken link, [edit the page on GitHub](CONTRIBUTING.md#how-to-contribute). You don't need to clone anything.
-
 ## Disclaimer
 
 These are unofficial fan projects. They are not affiliated with or endorsed by any game's developer or publisher. Nothing here is legal advice.
-
-Everything described here is for single-player and offline games that you own. Nothing in these guides covers anti-cheat, DRM, or online play.
 
 ## Licence and attribution
 
 Guides: [MIT](LICENSE). Linked projects keep their own licences, so check each one before reusing its code.
 
-If you write a guide based on one of these, credit it by name and keep its licence. FalloutCraft and OWCraft both credit SkyCraft that way.
+If you write a guide based on one of these, credit it by name and keep its licence. [FalloutCraft](https://github.com/zeyvu/FalloutCraft) and [OWCraft](https://github.com/Yaekai/OWCraft) both credit [SkyCraft](https://github.com/chasmlol/SkyCraft) that way.
