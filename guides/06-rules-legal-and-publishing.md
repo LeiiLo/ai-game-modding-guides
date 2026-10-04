@@ -57,10 +57,8 @@ If you're unsure where a line is, ask. Nobody gets in trouble for asking first.
 
 Single-player and offline, always. Two things worth being precise about, because both come up:
 
-- Easy Anti-Cheat is required for online play and mods don't run while it's on. With it off through the official option, offline matches, training, LAN, and replays work with mods. Anything online is still out.
+- **Anti-cheat isn't a blanket ban.** Some games with anti-cheat allow modding offline through the game's own option. Rocket League is the common example: Easy Anti-Cheat is required for online play and mods don't run while it's on, but with it off, offline matches, training, LAN, and replays work with mods. Anything online is still out.
 - **Never publish anything that helps someone bypass anti-cheat.** Not a tool, not a config, not instructions.
-
-See [guide 2](02-passthrough-mods.md) for the Rocket League specifics.
 
 ## Credit and licenses
 
@@ -75,7 +73,7 @@ If a rights holder asks you to change or remove something, do it. gang-beasts-ru
 
 ## Publishing on the Discord
 
-The share forum has rules:
+#share-your-projects has rules:
 
 - **A GitHub repo link is recommended** if you want others to use your work, but it isn't required. Don't upload files or link direct downloads or file hosts.
 - No ripped assets, leaked code, or links to pirated or leaked material.

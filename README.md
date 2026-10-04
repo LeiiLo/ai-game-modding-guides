@@ -17,8 +17,9 @@ Worth saying up front: everyone has their own methods, prompting style, and work
 >
 > **Single-player and offline games you own only.** Nothing here covers anti-cheat, DRM, or online play. See [the rules](guides/06-rules-legal-and-publishing.md).
 >
-> **Platform.** Most passthrough mods are targeted at Windows builds of games and they are not guaranteed to work on games running through Wine/Proton (if anyone has done this or found a way around it, please do let us know!).
-> Rust rewrites will work on Linux and Mac, the project just has to be built for your specific OS.
+> **Platform.** Most passthrough mods target the Windows build of a game, and they aren't guaranteed to work under Wine or Proton. If you've gotten one running that way, please tell us.
+>
+> Rust rewrites are cross-platform: the project just has to be built for your OS. That said, hl2-rs says other systems are unverified.
 
 ## Start here
 
@@ -34,7 +35,7 @@ Have a question you haven't seen answered yet? Go to the **[FAQ](guides/07-faq.m
 4. **Point it at an example project** ([SkyCraft](https://github.com/chasmlol/SkyCraft) for passthrough, [hl2-rs](https://github.com/kvalls/hl2-rs) for rewrites) and tell it what you want.
 5. **Expect many rounds.** The first prompt rarely finishes the job. You playtest, report what happened, and the agent fixes it.
 6. **Never commit game files.** Your repo holds your code only. Players use their own copies.
-7. **DRM and anti-cheat software will very often go be left alone by an Agent.** Similarly, online-only games are a no-go for Agents. We don't condone the circumvention of Agent guardrails, piracy, or DRM.
+7. **Agents usually leave DRM and anti-cheat alone**, and online-only games are a no-go. We don't condone circumventing agent guardrails, piracy, or DRM. Some games with anti-cheat do allow offline modding through the game's own option; see [the rules](guides/06-rules-legal-and-publishing.md#online-play-and-anti-cheat).
 
 ## Guides
 

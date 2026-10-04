@@ -4,7 +4,7 @@ You've got something that runs. Now you want people to find it, and you don't wa
 
 ## What to post, and where
 
-Post to the **share forum** on the Discord so the right people see it. Rough work-in-progress posts are welcome there, not just finished ones.
+Post to **#share-your-projects** on the Discord so the right people see it. Rough work-in-progress posts are welcome there, not just finished ones.
 
 Put your project on **GitHub** and link the repo if you want other people to be able to use it. A repo is strongly recommended. A direct download link isn't.
 

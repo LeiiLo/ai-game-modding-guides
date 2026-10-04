@@ -139,7 +139,7 @@ No. See [guide 6](06-rules-legal-and-publishing.md).
 Make sure your upload has no copyrighted game content. One member suggests having the agent write an extractor that players run themselves. Check the platform's rules.
 
 **Where can I see finished projects?**
-In the share forum on the Discord. A member is also working on a website to collect them.
+In #share-your-projects on the Discord. A member is also working on a website to collect them.
 
 **How do I post my project?**
 See [guide 10](10-posting-your-project.md), which has the pre-flight checklist and a post template.

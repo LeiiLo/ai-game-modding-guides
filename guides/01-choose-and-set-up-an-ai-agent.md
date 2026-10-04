@@ -28,7 +28,9 @@ Several people confused these. **Claude Code and Codex are agents.** MCP (Model 
 
 Almost all of these are a terminal program or a VS Code extension. The agent runs on your machine with your user account's file access, so what protects you depends on how you've configured it.
 
-Claude Code asks before it acts, shows file edits as diffs for you to approve, and has a built-in sandbox you switch on with `/sandbox`. Codex has its own permission and sandbox settings. Protection drops when people switch to full-access modes, which the Discord thread describes as members do. That is why the safety section at the bottom of this guide matters: the defaults help, and the failure mode is turning them off.
+Claude Code asks before it acts, shows file edits as diffs for you to approve, and has a built-in sandbox you switch on with `/sandbox`. Codex has its own permission and sandbox settings. Protection drops when people switch to full-access modes, which members here describe doing. That is why the safety section at the bottom of this guide matters: the defaults help, and the failure mode is turning them off.
+
+None of the agents will touch DRM or anti-cheat on their own, and online-only games are a no-go for all of them. If an agent refuses something, read the reason before assuming it's a limitation on what it can do.
 
 You do not need an IDE, but one experienced member recommends VS Code so you get proper file views and diffs. The agent creates your files and runs your builds either way, so you never copy-paste code into folders by hand.
 

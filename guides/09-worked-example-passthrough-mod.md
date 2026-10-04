@@ -4,7 +4,7 @@ This walks through building a passthrough mod from nothing, using the same nine 
 
 The architecture notes come from [SkyCraft's DESIGN.md](https://github.com/chasmlol/SkyCraft/blob/main/docs/DESIGN.md), so you can check them against the source. SkyCraft is Skyrim plus Minecraft, which maps to Game A and Game B below.
 
-**All of these examples are Windows-only.** Every one of the reference projects requires it, and hl2-rs says other operating systems are unverified. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
+**These examples target Windows.** Every reference project for passthrough mods does, because the loaders are Windows tools. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
 
 ## Step 0: Pick a pair that can work
 

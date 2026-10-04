@@ -4,7 +4,7 @@ Use this when you're sharing a finished project. It's what the Discord is short 
 
 A feature list proves the thing works. A workflow write-up is what lets someone else do it too. Write one even if your project is small and imperfect. A rough honest one beats a polished marketing page.
 
-Copy to your repo as `WORKFLOW.md`, or post it as a thread in the share forum.
+Copy to your repo as `WORKFLOW.md`, or post it as a thread in #share-your-projects.
 
 ---
 
@@ -151,6 +151,6 @@ coding agents.
 
 ## A note on unfinished work
 
-The share forum takes work-in-progress posts, not just finished ones. A half-working project with an honest "what doesn't work" section is more useful than nothing, and it's how people find collaborators. Say what you've got and what's broken.
+#share-your-projects takes work-in-progress posts, not just finished ones. A half-working project with an honest "what doesn't work" section is more useful than nothing, and it's how people find collaborators. Say what you've got and what's broken.
 
 Only post if you made it. No assets, no leaked material, and a repo link rather than a direct download.
