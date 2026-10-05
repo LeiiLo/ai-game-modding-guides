@@ -6,7 +6,7 @@ A rewrite or port rebuilds a game's engine from scratch, so it runs on its own i
 
 | Project | What it shows |
 |---------|---------------|
-| [hl2-rs](https://github.com/kvalls/hl2-rs) | A Half-Life 2 rewrite. Partial: the full campaign isn't playable. Its README lists exactly what works and what doesn't |
+| [IW4L](https://github.com/vladtrc/iw4L) | A Call of Duty: Modern Warfare 2 (2009) runtime in Rust and Bevy. Experimental: gameplay is incomplete, and it says so. Reads your own install in place and ships no assets |
 | [gang-beasts-rust](https://github.com/muffinmxn/gang-beasts-rust) | Python tools extract your game's data into formats a Rust/Bevy engine loads. A whitelist `.gitignore` keeps extracted files out of the repo |
 | [benilla](https://github.com/samwhosung/benilla) | A WoW 1.12.1 client in Rust and Bevy. A big project with hundreds of commits, readers for the game's file formats, and a generated map of the code |
 | [2010 Rust Rewrite Mashup](https://github.com/chasmlol/2010-rust-rewrite-mashup) | A rewrite combined with other games |
@@ -22,11 +22,11 @@ You don't have to use them. C and C++ work fine. People pick Rust and Bevy becau
 - Bevy is a free engine that's all code, with no editor to learn
 - AI is good at fixing Rust, because the compiler's error messages say what's wrong
 
-Not every project uses Bevy. hl2-rs uses a different window library and physics engine.
+Not every project uses Bevy. It is the most common choice in this space, but you'd pick a different one if you wanted to. IW4L also uses wgpu for rendering on top of Bevy, and translates the original game's Direct3D 9 shader bytecode to WGSL.
 
 ## Be realistic about size
 
-A rewrite is a big job. hl2-rs, after real effort, is an experimental partial reconstruction. Benilla is described as complete, with hundreds of commits behind it. Start with a goal that fits in a sentence, like "load and show the first level and walk around in it." Grow from there.
+A rewrite is a big job. IW4L is around 138 commits in and still describes itself as experimental, with missing behaviour, bugs and desyncs. Benilla is described as complete, with hundreds of commits behind it. Start with a goal that fits in a sentence, like "load and show the first level and walk around in it." Grow from there.
 
 ## How these projects are usually built
 
@@ -81,7 +81,7 @@ a notes file describing what you learned.
 - **Write down what you learned as documentation**, not as code. That documentation is the shareable part. This is how open-source engine reimplementations like [OpenMW](https://github.com/OpenMW/openmw) and [OpenRCT2](https://github.com/OpenRCT2/OpenRCT2) exist.
 - **Single-player, offline games you own only.** Leave DRM alone. Leave anti-cheat alone. Don't target anything to get around access controls. See [guide 6](06-rules-legal-and-publishing.md).
 - **Don't redistribute the output.** Personal study of a game you own is the scope. Publishing extracted assets or decompiled source is not.
-- **Keep your research local.** hl2-rs does the Ghidra work, keeps the databases and findings off the repo, and ships notes about what it learned instead.
+- **Keep your research local.** IW4L used Ghidra to inspect the original binaries and records what it learned in `docs/provenance/`, with the dumps and databases themselves kept out of the repo.
 
 Read [guide 6](06-rules-legal-and-publishing.md) before going down this path. It's not legal advice, but it lists what the community's own tooling refuses to do.
 
@@ -98,7 +98,7 @@ Read [guide 6](06-rules-legal-and-publishing.md) before going down this path. It
 ## Starter prompt
 
 ```
-I want to build a Rust rewrite of [Game] that reads its data from my own installed copy at [path] at runtime. Use [hl2-rs / gang-beasts-rust / benilla] as a reference for structure: [links].
+I want to build a Rust rewrite of [Game] that reads its data from my own installed copy at [path] at runtime. Use [IW4L / gang-beasts-rust / benilla] as a reference for structure: [links].
 
 Rules: never copy game assets or decompiled code into the repo. Use a whitelist .gitignore. Credit anything we learn from and keep licenses.
 

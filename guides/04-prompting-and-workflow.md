@@ -19,7 +19,7 @@ One point from this side is worth taking seriously because it undercuts the "wri
 - **Be specific about the problem, not the implementation.** "This looks bad, fix it" gives the agent nothing. "The door doesn't open when I press E next to it, and the log says X" does.
 - **Give the goal and the evidence.** Say what you wanted, what happened, and paste the logs.
 - **Models tunnel-vision.** If the agent is stuck on the wrong approach, say so and point it somewhere else.
-- **A good example project beats a long explanation.** Linking SkyCraft or hl2-rs does more than describing them.
+- **A good example project beats a long explanation.** Linking SkyCraft or IW4L does more than describing them.
 
 ## Working in small steps
 
@@ -33,7 +33,7 @@ Asking for the whole game at once usually goes badly. These habits help:
 
 Agents forget between sessions. Files don't. Keep three small documents in your project:
 
-1. **A rules file** (`AGENTS.md` or `CLAUDE.md`): what the agent must always do or never do. hl2-rs keeps one. See [`templates/AGENTS-starter.md`](../templates/AGENTS-starter.md).
+1. **A rules file** (`AGENTS.md` or `CLAUDE.md`): what the agent must always do or never do. IW4L keeps one, named `AGENT.md`. See [`templates/AGENTS-starter.md`](../templates/AGENTS-starter.md).
 2. **A development log** (`MODLOG.md`): what changed, how it was tested, what's still broken. OWCraft keeps one and links it from its README. See [`templates/MODLOG-template.md`](../templates/MODLOG-template.md).
 3. **A design doc** (`docs/DESIGN.md`): how the project works, in plain language. SkyCraft's is the best example of this in the whole space.
 

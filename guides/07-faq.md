@@ -37,7 +37,7 @@ Minecraft, Skyrim, and Fallout 4, by a wide margin. They have the best-documente
 Games with no mod loader and no source. If the host game has nothing, you're reverse engineering an engine before you can start. See [guide 8](08-mod-loaders-and-script-extenders.md).
 
 **Can I do this on Linux or macOS?**
-Not from the examples. Every project in these guides targets Windows, and hl2-rs says other systems are unverified. You'd be running the Windows build under Wine or Proton and debugging it yourself. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
+Depends which kind of project. A passthrough mod needs the host game running, and every example in these guides is Windows-only because the mod loaders are Windows tools. You'd be running the game under Wine or Proton and debugging it yourself. A Rust rewrite is a different story: the engine is your own code, and IW4L documents Linux and macOS build steps. Your own copy of the game still has to be readable from that OS. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
 
 **SkyCraft or universal-modder, which do I use?**
 They do different jobs. SkyCraft is a working passthrough mod you read and adapt; universal-modder is a set of skills that walks an agent through modding any game, including recon and reverse engineering. If you want Minecraft in Skyrim, use SkyCraft. If you're starting from a game nobody has touched, universal-modder may help.

@@ -16,7 +16,7 @@ Players supply their own copies. The example projects handle this in a few ways:
 
 - **Setup that builds from the player's copies.** GTA San AnSkateas ships a setup script that builds what the mod needs from the player's own installs.
 - **Extractor tools.** gang-beasts-rust has Python tools that read the player's install and write extracted data to a folder that Git ignores. Ask your agent to write one of these for you.
-- **Reading at runtime.** hl2-rs and benilla read the game's files in place and never copy them.
+- **Reading at runtime.** IW4L and benilla read the game's files in place and never copy them.
 
 ### Use a whitelist `.gitignore`
 

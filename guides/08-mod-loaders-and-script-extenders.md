@@ -61,12 +61,12 @@ Outer Wilds is Unity, not Creation Engine. OWCraft, the third project in this fa
 
 ### Windows is the common denominator
 
-Every project referenced in these guides targets Windows: SkyCraft, FalloutCraft, OWCraft, GTA San AnSkateas, hl2-rs, and gang-beasts-rust.
+Every passthrough project referenced in these guides targets Windows: SkyCraft, FalloutCraft, OWCraft, and GTA San AnSkateas.
 
 That splits two ways:
 
 - **Passthrough mods** need the host game running, so they're bound to the platform the game runs on. Mod loaders are Windows tools. Running the game under Wine or Proton is untested territory and nobody here has reported getting one working.
-- **Rust rewrites** are cross-platform, since the engine is your own code. Build it for your OS and it should run. Caveat: hl2-rs says outright that other operating systems are unverified, so "should run" is untested in practice rather than confirmed.
+- **Rust rewrites** are cross-platform, since the engine is your own code. IW4L documents Linux and macOS build steps, so it builds on both. Be aware it ships a prebuilt Windows release as the easy path, and that a *completed* rewrite still won't save you if the game only runs on Windows: your own install has to be readable from whatever OS you're on.
 
 If you've gotten a passthrough mod running on Linux or macOS, that's genuinely useful and the page should say so.
 

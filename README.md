@@ -3,7 +3,7 @@
 Guides for two kinds of projects, both built with an AI coding agent via a harness:
 
 - **Passthrough mods:** two games running at once and linked together, like [SkyCraft](https://github.com/chasmlol/SkyCraft) (Minecraft inside Skyrim).
-- **Rust rewrites and ports:** rebuilding a game's engine in Rust so it reads data from your own copy, like [hl2-rs](https://github.com/kvalls/hl2-rs).
+- **Rust rewrites and ports:** rebuilding a game's engine in Rust so it reads data from your own copy, like [IW4L](https://github.com/vladtrc/iw4L).
 
 These guides answer the questions people asked on the Discord. If something is missing or wrong, [open an issue](CONTRIBUTING.md) or send a pull request.
 
@@ -19,7 +19,7 @@ Worth saying up front: everyone has their own methods, prompting style, and work
 >
 > **Platform.** Most passthrough mods target the Windows build of a game, and they aren't guaranteed to work under Wine or Proton. If you've gotten one running that way, please tell us.
 >
-> Rust rewrites are cross-platform: the project just has to be built for your OS. That said, hl2-rs says other systems are unverified.
+> Rust rewrites are cross-platform: the project just has to be built for your OS. IW4L documents Linux and macOS build steps.
 
 ## Start here
 
@@ -32,7 +32,7 @@ Have a question you haven't seen answered yet? Go to the **[FAQ](guides/07-faq.m
 1. **Use an AI agent through a harness, not a chat website.** A harness (Claude Code, Codex, OpenCode, and others) runs on your PC (using the API provided by your AI provider), reads your game folders, writes and edits files, and runs builds. The browser versions of AI do not have access to files on your PC, so it is much easier to use the Agent through a harness.
 2. **Check whether your game has a mod loader.** This decides whether your idea is realistic. See [guide 8](guides/08-mod-loaders-and-script-extenders.md).
 3. **Install the games first.** The agent finds the files itself, so you don't upload anything.
-4. **Point it at an example project** ([SkyCraft](https://github.com/chasmlol/SkyCraft) for passthrough, [hl2-rs](https://github.com/kvalls/hl2-rs) for rewrites) and tell it what you want.
+4. **Point it at an example project** ([SkyCraft](https://github.com/chasmlol/SkyCraft) for passthrough, [IW4L](https://github.com/vladtrc/iw4L) for rewrites) and tell it what you want.
 5. **Expect many rounds.** The first prompt rarely finishes the job. You playtest, report what happened, and the agent fixes it.
 6. **Never commit game files.** Your repo holds your code only. Players use their own copies.
 7. **Agents usually leave DRM and anti-cheat alone**, and online-only games are a no-go. We don't condone circumventing agent guardrails, piracy, or DRM. Some games with anti-cheat do allow offline modding through the game's own option; see [the rules](guides/06-rules-legal-and-publishing.md#online-play-and-anti-cheat).
@@ -73,7 +73,7 @@ Drop these into your own project.
 | [OWCraft](https://github.com/Yaekai/OWCraft) | Passthrough: SkyCraft's design reused for Outer Wilds, with a development log and design doc |
 | [GTA San AnSkateas](https://github.com/ryglizzy/GTA-San-AnSkateas) | Skate 3's engine running inside GTA San Andreas |
 | [2010 Rust Rewrite Mashup](https://github.com/chasmlol/2010-rust-rewrite-mashup) | A Rust rewrite combined with other games |
-| [hl2-rs](https://github.com/kvalls/hl2-rs) | Rust rewrite of Half-Life 2, with an honest list of what's missing |
+| [IW4L](https://github.com/vladtrc/iw4L) | Rust/Bevy runtime for Modern Warfare 2 (2009), reading your own install. Experimental, and honest about it |
 | [gang-beasts-rust](https://github.com/muffinmxn/gang-beasts-rust) | Rust/Bevy rewrite with Python extractors and a whitelist `.gitignore` |
 | [benilla](https://github.com/samwhosung/benilla) | A large Rust/Bevy rewrite (a WoW 1.12.1 client) |
 | [universal-modder](https://github.com/rehan-remade/universal-modder) | Skills and tools that guide an AI agent through modding a game |

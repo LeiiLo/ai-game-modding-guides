@@ -2,7 +2,7 @@
 
 Copy this to the root of your project as `AGENTS.md` and fill in the bracketed parts. The agent reads this every session, so anything you put here becomes a rule it follows without being reminded.
 
-hl2-rs keeps one. So should you. It's the cheapest way to keep a long-running project on track.
+IW4L keeps one. So should you. It's the cheapest way to keep a long-running project on track.
 
 ---
 
