@@ -53,7 +53,7 @@ Have a question you haven't seen answered yet? Go to the **[FAQ](guides/07-faq.m
 | 9 | [Worked example: a passthrough mod, start to finish](guides/09-worked-example-passthrough-mod.md) | You want the whole process with the actual prompts |
 | 10 | [Posting your project](guides/10-posting-your-project.md) | You've got something that runs and want people to use it |
 | 11 | [Models and what to spend](guides/11-models-and-cost.md) | You're deciding what to pay, or which model to point the agent at |
-| 12 | [Worked example: an AI-assisted Rust rewrite](guides/12-worked-example-rust-rewrite.md) | You want an honest Rust rewrite case study |
+| 12 | [Worked example: IW4L, an AI-assisted Rust rewrite](guides/12-worked-example-rust-rewrite.md) | You want an honest Rust rewrite case study |
 
 ## Templates
 

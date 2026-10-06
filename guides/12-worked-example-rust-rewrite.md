@@ -1,86 +1,114 @@
-# 12. Worked example: an AI-assisted Rust rewrite
+# 12. Worked example: IW4L, an AI-assisted Rust rewrite
 
-This case study is based on [mw2-rust-rust-rewrite](https://github.com/Dj-Shortcut/mw2-rust-rust-rewrite), an unfinished standalone Rust/Bevy project. It is not a finished game and it does not contain the original game's assets.
+This case study is about [IW4L](https://github.com/vladtrc/iw4L), a standalone Rust runtime for Call of Duty: Modern Warfare 2 (2009). Around 138 commits at the time of writing, roughly 732 stars, Apache-2.0, and actively developed.
 
-## What this project actually is
+It is unfinished, and says so: *"Gameplay remains incomplete; expect missing behavior, bugs and desyncs."* It ships no game assets. You point it at a copy of MW2 that you already own and it reads that installation's maps, models, textures and weapons into its own engine.
 
-The intended end product is an original game with its own authored models, materials, sounds and world content. The current development tree is also built on inherited public code:
+What makes it worth reading is not the engine. It is how a project at this scale handles provenance, licensing, and the line between what an agent wrote and what a person decided.
 
-| Part | Origin and role | What it needs |
-|---|---|---|
-| `crates/` and authored content | New project code and authored content, much of it written with AI coding agents | The default standalone path uses the repository's authored content |
-| IW4L | [vladtrc's](https://github.com/vladtrc/iw4L) from-scratch Rust rewrite/runtime for IW4/MW2 | Its import modes read an MW2 installation supplied by the user |
-| `skate/` | Engine crates inherited from [SK8-ENGINE/skate-3-rust-engine](https://github.com/SK8-ENGINE/skate-3-rust-engine), whose project is based on Skate 3 reverse-engineering research | The converter reads an extracted Skate 3 Xbox 360 `default.xex` and its neighbouring `data` folder |
-| `third_party/minecraftoss/` | Five crates copied from MinecraftOSS commit `4013a68`, used for the optional Minecraft world mode | The launcher downloads Minecraft 26.3 files from Mojang; the included catalogs were exported by MinecraftOSS's harness |
-| `2010-rust-rewrite-mashup` | [chasmlol's](https://github.com/chasmlol/2010-rust-rewrite-mashup) project combined IW4L, Skate and Minecraft work | It inherits the requirements of the relevant mode |
+## The stack, and what each piece does
 
-That distinction matters. The project's own authored survival code is not the same thing as the inherited engine/research code around it.
+| Area | Implementation |
+|---|---|
+| Language | Rust, on [Bevy](https://bevy.org/) with wgpu for rendering |
+| Assets | Native FastFile readers convert game data into a shared intermediate representation |
+| Shaders | Retail Direct3D 9 Shader Model 3 bytecode is translated to WGSL |
+| Simulation | Server authority, client prediction and replay share one simulation step over explicit Bevy ECS state |
+| Networking | Custom UDP traffic, with a QUIC master for browsing and relaying |
 
-## Reverse engineering is part of the history
+The shader translation and the single shared simulation step are the two pieces worth studying. The second one means replay, prediction and the live game cannot disagree with each other, because they run the same code.
 
-The blanket sentence "no decompiled code" was too broad. A more accurate description is:
+Asset readers also cover MW3 and Black Ops, though MW2 is the one it expects.
 
-- The repository does not intentionally ship decompiler output, Ghidra databases, `FUN_...` placeholders, extracted game assets, or a retail executable.
-- IW4L was built from scratch in Rust using reverse-engineering research into MW2/IW4 formats and behaviour. Its documentation says this directly.
-- `skate/` is inherited from SK8-ENGINE, which describes itself as based on Skate 3 reverse-engineering research. Some inherited comments and constants refer to Xbox 360 TU3 executable addresses and values learned from the executable.
-- `third_party/minecraftoss/` is inherited engine source. Its data catalogs are not claimed here to be original authored game design; they were exported by the MinecraftOSS harness for the 26.3 data used by that engine.
-- The new survival layer and authored assets are the project's own work, but that does not erase the provenance of the engines it uses.
+## What you need to supply
 
-Do not describe the whole repository as "free of reverse engineering". Say which layer is authored, which is inherited, and whether a file is source, a generated table, an extracted asset, or an unknown binary.
+Your own installed MW2 multiplayer data. Nothing else, and no assets are redistributed.
 
-## Unresolved binary provenance
+**Windows** is the easy path: download `iw4l-windows.zip` from the releases, extract it into an empty writable folder, and run `iw4l.exe`. It finds MW2 in your Steam libraries and creates a shortcut. MW2 is required; BO1 and MW3 are optional.
 
-`crates/fx_iw4/data/fx_random_table.bin` is byte-for-byte the same file as the one in upstream IW4L. The repository history identifies it as inherited from IW4L, but neither repository currently documents whether it was authored, generated from public research, or copied from a game. That is an open provenance question, not evidence that it is safe to redistribute.
+**Linux and macOS** need a real build. Rust through rustup, plus a C toolchain and the Bevy system libraries. `docs/BUILD.md` lists packages per distro, and Linux needs X11, ALSA, udev, Wayland and xkbcommon headers. macOS needs only the Xcode command line tools. Game data comes from the Windows depot of a Steam copy via `steamcmd`, pointed at by the `IW4L_GAMES` environment variable.
 
-The same caution applies to any bundled binary or generated catalog whose source is not recorded. Before publishing or merging, ask the upstream author for its origin and permission, or remove/regenerate it from a documented source.
+This is the shape most rewrites take: the engine is portable, the game files are not.
 
-## Licences and notices
+## How much of it is AI-written
 
-The top-level project declares Apache-2.0 for its own code, but that does not automatically relicense inherited code:
+The README's last line before the acknowledgements is *"This whole project is written by an LLM."*
 
-- IW4L: Apache-2.0 according to its repository.
-- `skate/`: inherited from SK8-ENGINE/skate-3-rust-engine, whose repository states GPL-3.0-only. A GPL project must retain its licence obligations; an Apache-2.0 top-level declaration does not make the vendored code Apache-2.0.
-- `third_party/minecraftoss/`: copied at commit `4013a68`, but the vendored snapshot has no licence file or licence declaration. Do not guess its licence. Record the missing licence and get confirmation from MinecraftOSS before distributing those crates.
-- `fx_random_table.bin` and the Minecraft catalogs need provenance and licensing notes separate from the Rust source licence.
+The human work is still substantial and mostly invisible in the commit log. Someone decided the architecture, wrote `AGENT.md`, wrote the documentation set in `docs/`, set the licensing, and wrote `CONTRIBUTING.md` and `SECURITY.md`. Those are judgment calls an agent does not make for you.
 
-The project's `NOTICE` should distinguish its own Apache-2.0 code from inherited IW4L, SK8-ENGINE and MinecraftOSS material. If a dependency's licence is unknown, say so plainly and treat it as a release blocker.
+IW4L is also rebrand-renamed. Its `NOTICE` says it *"was originally developed by vladtrc"* under an earlier name, which is a reminder that projects in this space get iterated on heavily.
 
-## What a player must provide
+## The provenance problem, and the honest answer
 
-"Players must supply any games they own" is too vague. The modes are different:
+Rewrites that study an existing engine run into a real problem: some of what you write will resemble something you read. That is a licensing question, not a style question, and IW4L handles it in a way worth copying.
 
-| Mode | Uses bundled authored content? | External files required |
-|---|---:|---|
-| Default standalone launcher | Yes | None from a commercial game; it is still an unfinished development path |
-| IW4L/MW2 import modes | No, they read the selected game tree | A legally owned MW2 installation, selected through the IW4L game-data path |
-| Skate converter | No | An extracted Skate 3 Xbox 360 game folder, including `default.xex` and its `data` folder; the converter does not accept an ISO directly |
-| Minecraft mode | Partly | Mojang's Minecraft 26.3 client/assets are downloaded on first run; the bundled MinecraftOSS catalogs are generated support data, not the Mojang JAR or assets |
+`docs/provenance/movement-iw4.md` records that the movement solver in `movement_iw4/src/slide.rs` had *"uncertain provenance because of reported similarities to GPL movement implementations."* The note goes further than most projects would:
 
-The default launcher path is the planned original game. The other modes are inherited research/integration paths and have their own external-data requirements.
+- It names the first tracked commit of the old module and the exact blob hash of what was replaced.
+- It states plainly that *"This record does not establish that copying or adaptation occurred."*
+- It records that the replacement was written by an isolated agent with conversation history excluded, working from a freshly written behavioral contract rather than from the old code.
+- It then says the isolation was *"procedural isolation on a shared host, not an enforced filesystem sandbox or a guarantee about model training data."*
 
-## AI use and project rules
+That last sentence is the most useful thing on this page. It describes a real control without pretending it is a guarantee. If you build something similar, write that sentence.
 
-AI wrote a large part of the current tree. IW4L documents that it was written by an LLM. In the checkout reviewed for this guide, the history has 128 commits attributed to Claude and 16 to Codex out of 300 total; those counts will change as development continues. That is process context, not a reason to hide the human and upstream research that made the inherited parts possible.
+`AGENT.md` adds two standing rules with an automated check. Retail offsets stay out of the code, because a standalone runtime resolves nothing against a retail image, and decompiler placeholder names (`FUN_...`, `DAT_...`) are dead weight. `make publish-check` greps the tracked tree for both shapes. The file is careful about what that proves: *"it proves no claim about origin or licensing, and passing it is not an argument for anything beyond the absence of those shapes."*
 
-The repository's `AGENTS.md` and `docs/AUTONOMY.md` describe how that project operates: issue-sized work, agent coordination, verification boundaries and standing authorization. They are project-specific operating rules, not a universal recommendation that every user should let an agent commit without asking. A different project may reasonably require approval before edits or commits.
+## Licensing, spelled out
 
-The README, `TODO.md`, and some development documents such as `docs/RUST-MAPS.md` and `docs/BUILDINGS.md` are written partly or entirely in Dutch. That is a documentation-language detail, not a property of player-facing game text; the project rules require in-game text to remain English.
+Apache-2.0 for the project's own code, with a `NOTICE` that separates its own material from what it bundles. Two fonts are compiled into the binary with `include_bytes!`, so they ship with every build:
 
-## Status and evidence
+- **Oxanium**, SIL Open Font License 1.1
+- **Fira Mono**, SIL Open Font License 1.1, from an unmodified Mozilla revision
 
-The project is unfinished. It records code-level, headless, graphical and release-readiness checks separately. Some survival, inventory, building, combat, skate and save/load paths have focused checks; the complete user journey, hardware-controller feel, audio playback and release packaging are not thereby proven.
+`iw4l.exe licenses` prints the licence texts compiled into the executable. That is a small detail that shows the project expects people to redistribute it.
 
-That separation is the useful lesson for an AI-assisted rewrite: a passing compiler check does not prove a playable game, and a successful feature probe does not prove that every inherited dependency is publishable.
+The README also credits what informed the work: [OpenAssetTools](https://github.com/Laupetin/OpenAssetTools) and its `iw4x-x64` fork for asset layouts, [IW4x](https://github.com/iw4x/iw4x-client) for asset and protocol behavior, [KisakCOD](https://github.com/SwagSoftware/KisakCOD) for engine structure, and Ghidra for inspecting the original binaries.
+
+Read that list as a provenance record rather than a formality. Naming what you studied is how a reader can judge the result.
+
+## What works, and what doesn't
+
+The README's claim is deliberately narrow: explore maps, fight bots, record and replay demos. Gameplay is incomplete.
+
+`docs/` is organized around that honesty. There are separate files for rendering, simulation, map loading, the GSC runtime, bot AI, and performance, and a page documenting what commands let you poke the live process. `docs/PERF.md` insists on native `.pftrace` traces as *"the only runtime truth"* and gives you SQL for querying them. `docs/BENCH.md` covers map-load timing. There is an approved-scenarios suite for repeatable end-to-end checks, including two clients through a dev master.
+
+Two things that will surprise you if you don't read them:
+
+**Cheats are on by default.** The host accepts `move`, `look`, `tp`, `nudge`, `god`, `kill`, `force_spawn` and a `give` supply list. `--no-cheats` turns them off. This is a research runtime, not a competitive client.
+
+**APIs, caches, config and the wire protocol change between commits.** Multiplayer peers must run the same build. Anyone planning to test with a friend needs to agree on a commit first.
+
+## The rules the project set for itself
+
+Worth reading as templates, whether or not you touch a project like this.
+
+`AGENT.md` is a single short file, not a sprawling document. It says what the agent must not touch, what must stay out of the published tree, and how to read the files in order.
+
+`CONTRIBUTING.md` draws a line most projects don't:
+
+> Small and self-contained: a fix, a crash, a wrong constant, a doc correction. Open it directly.
+> Architectural: a new crate, a new subsystem, a change to how data flows. Open an issue first. A large branch that arrives unannounced is likely to be turned down.
+
+It also says what a useful bug report contains and what it does not: *"Do not attach your `.env`, a memory dump, or an archive of the game."* And it prioritises honestly, with *"a failure in a scenario the project says works outweighs a missing feature it never promised."*
+
+`CONTEXT.md` describes the maintainer's own workflow: working memory kept outside git in a `context/` folder, one artifact per task with its evidence and verdict, and the rule that *"knowledge that is not in an artifact does not exist"* for the next agent. It is explicitly not the contribution path.
+
+`SECURITY.md` scopes reports to problems that reach past arranged playtests between people who agreed to play, and says upfront that it is a channel rather than a program: no bounty, no SLA.
+
+## What to take from this
+
+- **Read the provenance notes before you admire the code.** They tell you which parts you can safely build on.
+- **An agent can write most of the code and none of the licensing.** Budget your own time accordingly.
+- **A build system is a real deliverable.** The distro package lists, the cross-build notes, the Windows portable folder, and the licensed-font bookkeeping took human decisions.
+- **Narrow claims survive contact with users.** IW4L says what works in two lines and links the rest. Projects that promise everything get judged on the missing parts.
 
 ## Credits
 
-- [IW4L](https://github.com/vladtrc/iw4L) by vladtrc: the from-scratch IW4/MW2 Rust runtime and research foundation.
-- [2010 Rust Rewrite Mashup](https://github.com/chasmlol/2010-rust-rewrite-mashup) by chasmlol: the project that combined the IW4L, Skate and Minecraft directions.
-- [SK8-ENGINE/skate-3-rust-engine](https://github.com/SK8-ENGINE/skate-3-rust-engine): inherited Skate 3 engine crates and reverse-engineering research.
-- MinecraftOSS: inherited Rust engine crates and the harness-exported Minecraft 26.3 catalogs.
+- [IW4L](https://github.com/vladtrc/iw4L) by vladtrc: the runtime this case study is about, and the provenance work worth copying.
+- [OpenAssetTools](https://github.com/Laupetin/OpenAssetTools), [IW4x](https://github.com/iw4x/iw4x-client), [KisakCOD](https://github.com/SwagSoftware/KisakCOD) and Ghidra, credited by IW4L as the research that informed it.
 
-The project is unofficial and unaffiliated with the owners of MW2, Skate 3, Minecraft or their trademarks. A disclaimer does not by itself establish permission to use their logos: the README banner uses the Rust, MW2 and Skate 3 logos, so its clearance is unresolved. For a redistributable project, replace it with original artwork and plain text names unless the logo owners' terms clearly permit the use.
+IW4L is unofficial and unaffiliated with the owners of MW2 or its trademarks.
 
 ---
 
-<sub>[Spot a mistake? [Edit this page on GitHub](https://github.com/trevaintdead/ai-game-modding-guides/edit/main/guides/12-worked-example-rust-rewrite.md).](https://github.com/trevaintdead/ai-game-modding-guides/issues/new) · Part of [AI Game Modding Guides](https://github.com/trevaintdead/ai-game-modding-guides)</sub>
+<sub>[Spot a mistake? [Edit this page on GitHub](https://github.com/trevaintdead/ai-game-modding-guides/edit/main/guides/12-worked-example-rust-rewrite.md).](https://github.com/trevaintdead/ai-game-modding-guides/edit/main/guides/12-worked-example-rust-rewrite.md) &middot; [Open an issue](https://github.com/trevaintdead/ai-game-modding-guides/issues/new) &middot; Part of [AI Game Modding Guides](https://github.com/trevaintdead/ai-game-modding-guides)</sub>
