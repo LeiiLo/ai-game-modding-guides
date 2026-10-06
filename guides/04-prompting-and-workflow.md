@@ -60,6 +60,35 @@ They say this helps most with less capable models. Another member closes and reo
 
 It depends on the model, how hard it thinks, and how big the task is. Members report anywhere from about 5 minutes to many hours for a single piece of work.
 
+## When you hand over to a fresh chat
+
+The handoff trick above solves a stuck chat. There are two other moments where it pays to start clean:
+
+- **Starting a new project.** Nothing useful carries over between unrelated projects, and a long chat full of one game's details makes the agent reach for them in the next one. `STATUS.md` per project beats one continuous conversation.
+- **Switching agents or models.** Different tools read the same files differently. A handoff file gives the new one the same starting point.
+
+## A worked starter prompt
+
+Every example project here uses the same shape. Point at a reference, name the substitution, and ask for a read-only report first:
+
+```
+I want to build [project type] like [reference project] ([link]), but for [your games].
+
+Clone it locally and read its README and any docs/ files so you understand the
+architecture. I want the same approach.
+
+[Game A] is installed at [path]. [Game B] is installed at [path].
+
+Before you build anything, tell me:
+- what loaders, APIs or SDKs exist for these games
+- does either have online play or anti-cheat? (We don't touch those.)
+- what's the smallest thing I can build first to prove this works
+
+Don't change any code yet. Just report what you found.
+```
+
+The last line is the one that matters. It costs you one turn and saves you from a confident plan built on a wrong assumption.
+
 ## Let the agent test what it can, and you test the rest
 
 See [guide 5](05-testing-and-troubleshooting.md). The short version: the agent is bad at judging visuals and "feel." Make it log numbers and events, and you do the playtesting.

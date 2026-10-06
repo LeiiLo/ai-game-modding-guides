@@ -47,10 +47,16 @@ These answer most of the questions people arrive with:
 ## Honest expectations
 
 - **Time:** a task can take anywhere from a few minutes to many hours, depending on the model and how hard you make it think. One member reported about 3-4 hours of back-and-forth before an Elden Ring + Spider-Man mashup worked, and described it as jank but working.
-- **Cost:** agents use paid plans or API credits, and plans have usage limits. See [guide 1](01-choose-and-set-up-an-ai-agent.md).
+- **Cost:** agents use paid plans or API credits, and plans have usage limits. See [guide 11](11-models-and-cost.md) for what to actually spend.
 - **Coding knowledge:** you don't need it to start, but a little helps. You can always ask the agent to explain what it did.
 - **Rough edges:** early projects are experimental. Back up your saves.
 - **Some things won't work.** Online games with anti-cheat are off the table. See [guide 6](06-rules-legal-and-publishing.md).
+
+## If you only do one thing first
+
+Don't start with the game you wish you could mod. Start with a game you already own that has a good loader, and get something small working end to end. That teaches you the loop: recon, one working slice, playtest, commit, repeat.
+
+A finished thing that does almost nothing teaches you more than an ambitious thing you abandon on day two.
 
 ## Before you start: checklist
 

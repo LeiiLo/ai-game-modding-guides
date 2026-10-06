@@ -54,6 +54,13 @@ Have a question you haven't seen answered yet? Go to the **[FAQ](guides/07-faq.m
 | 10 | [Posting your project](guides/10-posting-your-project.md) | You've got something that runs and want people to use it |
 | 11 | [Models and what to spend](guides/11-models-and-cost.md) | You're deciding what to pay, or which model to point the agent at |
 | 12 | [Worked example: IW4L, an AI-assisted Rust rewrite](guides/12-worked-example-rust-rewrite.md) | You want an honest Rust rewrite case study |
+| 13 | [Reverse engineering and the law](guides/13-reverse-engineering-and-the-law.md) | You're decompiling something and want to know where the lines actually are |
+
+## Legal
+
+[LEGAL.md](LEGAL.md) covers what this repository is and is not, the behaviours that actually lower your risk, what to do if a publisher contacts you, and the formal DMCA counter-notification process if your repository gets taken down.
+
+Read it before you publish, not after a letter arrives. None of it is legal advice.
 
 ## Templates
 
@@ -109,6 +116,8 @@ Experienced developers are welcome. Technical write-ups, corrections, dead ends 
 ## Disclaimer
 
 These are unofficial fan projects. They are not affiliated with or endorsed by any game's developer or publisher. Nothing here is legal advice.
+
+[LEGAL.md](LEGAL.md) has the full notice, what to do if a publisher contacts you, and the DMCA counter-notification process.
 
 ## Licence and attribution
 

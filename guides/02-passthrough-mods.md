@@ -15,6 +15,26 @@ Because both games run together, **every player needs a copy of both**.
 
 One member described the idea well: two games exchanging state, where neither works without the other running. A normal mod would have one game containing the other's content.
 
+## How the two games talk
+
+This is the decision people get wrong first, so it's worth being concrete. SkyCraft's transport, which every other example copies:
+
+- **Named shared memory.** One block of memory both processes open, called `Local\SkyCraft_v1` on Windows. Both sides map the same physical pages, so a write is visible to the other without a copy through the kernel. It only works because both processes are on the same machine.
+- **A header at the top.** Magic number, protocol version, both process IDs, heartbeats. If a header looks wrong, the two sides stop immediately rather than interpret garbage.
+- **Latest-value slots for per-frame data.** Player position, camera, frame sync. Written with a seqlock, so the reader can detect a torn read and try again.
+- **Two ring buffers for events.** One each way. Things that happen once: a block placed, a hit landed, a save requested. Ring buffers stop you dropping an event under load, which a shared slot would do.
+- **Named events for wakeups**, so a waiting process sleeps instead of spinning a core.
+
+Three rules that come out of that layout, and that you should ask the agent for before it writes anything:
+
+**One schema, two languages.** SkyCraft defines the messages once in `protocol/messages.*` and generates a C++ header and a Java class from it. A layout test runs in CI against both. Hand-written structs in two languages drift apart the first time you add a field.
+
+**Everything fixed-size and little-endian.** No serialization library in the hot path. Variable-length data, like a list of collision boxes, goes in the ring buffer as a count followed by fixed-size records.
+
+**Both sides must survive the other dying.** Heartbeats detect a crash. If Minecraft dies, Skyrim hands control back to the player instead of leaving a puppet with no brain. If Skyrim dies, Minecraft pauses. Decide this on day one, because retrofitting a failure path into a working transport is miserable.
+
+> A full step-by-step walkthrough of building one of these is in [guide 9](09-worked-example-passthrough-mod.md).
+
 ## Examples to study
 
 | Project | Games | Notes |
@@ -24,9 +44,7 @@ One member described the idea well: two games exchanging state, where neither wo
 | [OWCraft](https://github.com/Yaekai/OWCraft) | Outer Wilds + Minecraft | Built on SkyCraft with a patch. Includes a design doc and development log |
 | [GTA San AnSkateas](https://github.com/ryglizzy/GTA-San-AnSkateas) | GTA San Andreas + Skate 3 | A variation: a plugin loads a Rust rebuild of Skate 3's engine instead of running the whole second game |
 
-Most of these are built on SkyCraft's design, so SkyCraft is the usual starting reference. Read its `docs/DESIGN.md` before you prompt anything. It tells you which game is authoritative for what, and getting that backwards is expensive to undo.
-
-> A full step-by-step walkthrough of building one of these is in [guide 9](09-worked-example-passthrough-mod.md).
+Most of these are built on SkyCraft's design, so SkyCraft is the usual starting reference. Read its `docs/DESIGN.md` before you prompt anything. It tells you which game is authoritative for what, and getting that backwards is expensive to undo. It also has the message catalog in section 10, which is the answer to the hardest question in a passthrough mod: what data actually crosses between the games.
 
 ## The one thing that decides if it's possible
 
@@ -68,11 +86,14 @@ Clone SkyCraft locally and read its README and docs/DESIGN.md so you understand 
 [Game A] is installed at [path]. [Game B] is installed at [path].
 
 Before you build anything, tell me:
-- does [Game A] have a mod loader or script extender we can use?
-- does either game have online play or anti-cheat? (We don't touch those.)
+- what loaders, APIs or SDKs exist for these games
+- does either have online play or anti-cheat? (We don't touch those.)
+- what's the smallest thing I can build first to prove this works
 
 Don't change any code yet. Just report what you found.
 ```
+
+The last line is the one that matters. It costs you one turn and saves you from a confident plan built on a wrong assumption.
 
 You can add more later, like what features you want first.
 
@@ -81,12 +102,13 @@ You can add more later, like what features you want first.
 Not a rule, but useful: when the agent goes in circles, aim for a smaller goal. A common order:
 
 1. Get your code loading inside the host game and writing a line to a log.
-2. Send one piece of data from one game to the other (like the player's position).
-3. Send something back.
-4. Make the player move in one game and show up in the other.
-5. Add features one at a time (blocks, combat, vehicles, UI).
+2. Get both sides to open the shared memory and agree on a version.
+3. Send one piece of data from one game to the other (like the player's position).
+4. Send something back.
+5. Make the player move in one game and show up in the other.
+6. Add features one at a time (blocks, combat, vehicles, UI).
 
-Steps 1 and 2 are the whole trick. Once one value crosses between the games, the architecture works and the rest is features.
+Steps 1 to 3 are the whole trick. Once one value crosses between the games, the architecture works and the rest is features.
 
 ## What to expect
 
@@ -103,6 +125,20 @@ These come up on the Discord constantly:
 |------|---------|
 | Any online or multiplayer game as the gameplay side | Out of scope entirely. See [guide 6](06-rules-legal-and-publishing.md) |
 | A host game with no mod loader and no source | You'd be reverse engineering the whole engine first |
+| Two games in different engines on different runtimes, as your first attempt | Every reference project pairs a native host with one Java or .NET gameplay game. A mismatched pair doubles the problem: the host side needs a loader, and the gameplay side needs a mod API, and now you have to find both at once |
+| Running the gameplay game truly headless | The visuals are the whole point. SkyCraft hides the window but still renders into an offscreen texture, because the host needs depth to composite against. Without rendering there's no mod |
+| A mod that needs to work on Linux or macOS | The loaders are Windows tools. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator) |
+| Shipping the second game's assets in the release | You ship code and a setup script. The player supplies the game. See [guide 10](10-posting-your-project.md) |
+
+## What decides how hard yours will be
+
+Two answers, both asked before you write anything:
+
+**Does the host game's loader let you hook its render and player code?** A plugin that can only read a config file is no use. You need to move the player puppet, and you need to composite another game's pixels into the frame. If the loader can't do that, the project gets much harder than it looks.
+
+**Does the gameplay game expose a way to inject its physics?** You want Game B's own physics to run unchanged against Game A's geometry. If Game B only runs as a normal game with its own world, you're back to the "rewrite the engine" path from [guide 3](03-rust-rewrites-and-ports.md).
+
+Minecraft passes both because Fabric gives you a mod inside it and it has an integrated server. A game that ships one executable with a fixed world does not.
 
 ---
 

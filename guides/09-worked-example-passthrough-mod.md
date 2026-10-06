@@ -1,6 +1,6 @@
 # 9. Worked Example: A Passthrough Mod, Start to Finish
 
-This walks through building a passthrough mod from nothing, using the same nine steps every time. The names are written as **Game A** (the host, which draws the world) and **Game B** (the gameplay game, which supplies the mechanics). Swap in your own.
+This walks through building a passthrough mod from nothing, in a fixed order. The names are written as **Game A** (the host, which draws the world) and **Game B** (the gameplay game, which supplies the mechanics). Swap in your own.
 
 The architecture notes come from [SkyCraft's DESIGN.md](https://github.com/chasmlol/SkyCraft/blob/main/docs/DESIGN.md), so you can check them against the source. SkyCraft is Skyrim plus Minecraft, which maps to Game A and Game B below.
 
@@ -97,6 +97,13 @@ what data crosses between them, and the order we build it in.
 Then implement step 1 only.
 ```
 
+The design doc needs four things, and asking for them by name saves a round trip:
+
+- **The two halves.** Which process hosts which code, and in what language.
+- **What data crosses.** The message list. SkyCraft's catalog in its DESIGN.md section 10 is the model: player position per frame, collision sections streamed, NPC positions at 20 Hz, and events like block changes and hits.
+- **Which game is authoritative for what.** See step 5.
+- **The build order.** Each phase ends in something playable.
+
 Step 1 is always the same: **your code loads inside Game A and writes one line to a log file.**
 
 ```
@@ -105,6 +112,14 @@ Don't do anything else yet.
 ```
 
 Two games, one log line. Get that, and the rest is iteration.
+
+Once that works, the next step is a handshake, not more features. Both sides open the shared memory, agree on a protocol version, and log it. That catches the failure you'd otherwise debug much later: the two halves open mismatched structs and interpret each other's bytes as nonsense.
+
+```
+Next: both sides open the shared memory block and check the header.
+Magic number, protocol version, both process IDs. Log what each side read.
+If the header doesn't match, both sides stop and say so rather than continuing.
+```
 
 ## Step 5: Send one value across
 
@@ -117,7 +132,7 @@ Decide this before you write the transport, because reversing it later means rew
 Player position first, because it's easy to see and easy to verify. Send it every render frame:
 
 ```
-Step 2: Minecraft is authoritative for player position. Each render frame,
+Next: Minecraft is authoritative for player position. Each render frame,
 send its interpolated position (the partial-tick render position, not the raw
 20 TPS tick position) to Skyrim, which moves the player puppet to match.
 
@@ -128,7 +143,7 @@ Then run both games and walk around. Check the log. Positions should match.
 
 **Verification trick:** log the value on both sides with a timestamp or frame counter. You should never have to eyeball whether two numbers match.
 
-This is where the architecture gets proven. Once one float crosses the boundary, the hard part is done.
+That's the architecture proven. Once one float crosses the boundary, the hard part is done.
 
 Two details worth copying from SkyCraft:
 
@@ -140,12 +155,16 @@ Two details worth copying from SkyCraft:
 Now close the loop. Skyrim tells Minecraft what the world is shaped like and where the NPCs are:
 
 ```
-Step 3: send collision shapes from Skyrim near the player, plus NPC positions.
+Next: send collision shapes from Skyrim near the player, plus NPC positions.
 Inject them into Minecraft's collision queries so Minecraft's own physics
 runs unchanged against Skyrim's geometry. Log both directions.
 ```
 
 Two games talking. Everything after this is features.
+
+**Before you build any of it, answer the crash question.** If Game B dies mid-frame, the player puppet in Game A has no position and no brain. Heartbeats in the shared memory header detect this, and each side needs a defined safe state: Game A hands control back to the player, Game B pauses rather than simulating against nothing. Decide it now. Retrofitting a failure path into a working transport is a bad afternoon.
+
+**Keep one schema, in one place.** Define the messages once and generate both sides' code from them, or write the structs by hand in both languages and accept that they'll drift the first time you add a field. SkyCraft keeps the definition in `protocol/messages.*` and generates a C++ header and a Java class from it, with a layout test in CI on both sides. Everything is fixed-size and little-endian, so there's no serialization library in the hot path. Variable-length data, like a list of collision boxes, travels as a count followed by fixed-size records.
 
 ## Step 7: Add one feature at a time
 
@@ -177,7 +196,31 @@ Game A is dropping to 40fps. Frame times are in [log path]. Find the bottleneck
 before changing anything. Tell me what the profile says first.
 ```
 
-## Step 9: Publish
+**Two games means roughly twice the RAM, and the gameplay game's appetite is the surprise.** Minecraft's memory is the part you can control: SkyCraft keeps the JVM heap near 3 GB and renders almost nothing, because the world it draws is a void with no terrain. All the geometry comes from Game A. If your gameplay game is loading its own full world, you are paying for two worlds.
+
+Say it once at the start rather than optimising at the end:
+
+```
+Game B is only supplying physics and inventory. It doesn't need to load its
+own terrain. Cap its memory and tell me what to set.
+```
+
+## Step 9: Make saving and loading work
+
+Skip this and you find out the bad way. Two games with two save systems means loading a Game A save and getting an inconsistent Game B state: your blocks and inventory are gone, or they're in the world but not your inventory.
+
+SkyCraft's answer is a shared save id. The plugin stores an id inside the Game A save. On save, Game B flushes its mirror world and snapshots its own region and player data under that id. On load, it reads the id back and restores its side too, so the two always rewind together.
+
+```
+Saving Game A must also save Game B. Put a save id in Game A's save file,
+have Game B flush and snapshot its state under that id, and restore it when
+Game A loads. Test it by building something, saving, quitting both games,
+relaunching and loading.
+```
+
+Test that last sentence specifically. Saving and loading is where this class of mod quietly breaks, because both games run fine until you relaunch.
+
+## Step 10: Publish
 
 See [guide 10](10-posting-your-project.md) for posting it, and [guide 6](06-rules-legal-and-publishing.md) for the rules you must not break. The short version: your repo is code only, no game files, ever.
 
@@ -187,16 +230,33 @@ See [guide 10](10-posting-your-project.md) for posting it, and [guide 6](06-rule
 - The wall people hit tends to be the first time something crosses the boundary and lands in the wrong coordinate space, or the two games' frame clocks drifting apart. Both are normal.
 - When you hit one: stop repeating prompts. Write a `STATUS.md`, open a fresh chat, hand it over. See [guide 5](05-testing-and-troubleshooting.md).
 
+## The four things that eat the most time
+
+Worth knowing in advance, because each one costs a day the first time it happens:
+
+**A gameplay game whose mod internals move between versions.** SkyCraft pins Minecraft to one version and keeps all its Mixins in one package with a target list, so a game update breaks one known place instead of the whole mod. Pin your version and write it in the README.
+
+**Coordinate space.** Game A and Game B use different units, different up axes, and different origins. Write the mapping down and unit test it before anything else renders. A units mistake here reads like an agent bug, because the agent is confidently building on a wrong number.
+
+**Two save systems.** Covered in step 9. Test by quitting both games and relaunching, not by saving and reloading inside one session.
+
+**Two processes fighting over the GPU and the frame clock.** Covered in step 8.
+
 ## The checklist
 
 - [ ] Game A has a loader and it loads someone else's known-good mod
 - [ ] Both games are single-player or offline, and you own them
+- [ ] Both are pinned to exact versions, and the README says which
 - [ ] You've decided which game is authoritative for the player
+- [ ] The design doc names the messages that cross between the games
+- [ ] Each side has a defined safe state if the other dies
 - [ ] `git init` done, and you committed
 - [ ] `AGENTS.md` and `MODLOG.md` exist
 - [ ] Agent gave you a recon report before writing code
 - [ ] Your code loads and logs one line
+- [ ] Both sides handshake and agree on a protocol version
 - [ ] One value crosses, logged on both sides
+- [ ] Save and load tested across a full quit and relaunch
 - [ ] Features added one at a time, each tested and committed
 - [ ] README says what works and what doesn't
 - [ ] No game files in the repo

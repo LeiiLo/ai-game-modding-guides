@@ -48,6 +48,8 @@ If you have a working game and want to link a second one to it, you want [guide 
 
 Members routinely skip steps 1 and 2 and lose whole evenings to it. Two separate people on the Discord said the same thing: *look for an existing decomp or format project before you start.* Ask the agent to search first. It's good at finding community projects.
 
+Step 1 is worth preferring even when step 3 would work, for a reason that has nothing to do with effort. **Studying a game through its interface involves no copying at all**, so there is no copyright question to answer. The moment you run a decompiler, a copy of protected expression exists on your disk, and you have moved from a clean position into one that depends on a fair use argument. Prefer observation wherever the question allows it. [Guide 13](13-reverse-engineering-and-the-law.md#black-box-grey-box-white-box) covers the distinction and the cases behind it.
+
 ### When you do need it
 
 Tools, in the order members mention them:

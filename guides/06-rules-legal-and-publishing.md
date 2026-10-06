@@ -44,7 +44,7 @@ This is the rule people break most often, usually by accident. If someone asks y
 
 ## Reverse engineering: what's fine and what's not
 
-Reverse engineering is a normal part of this work, and [guide 3](03-rust-rewrites-and-ports.md) covers the tooling. The lines are:
+Reverse engineering is a normal part of this work, and [guide 3](03-rust-rewrites-and-ports.md) covers the tooling. The law behind these lines is in [guide 13](13-reverse-engineering-and-the-law.md), and what to do if a publisher contacts you is in [LEGAL.md](../LEGAL.md). The lines are:
 
 **Fine:**
 - Studying a game you own, on your own machine, for your own use
@@ -64,7 +64,15 @@ A version downgrader sits on the fine side. It exists so a copy you own reaches 
 
 The general principle: when a loader checks that you own the game, satisfy the check the intended way. tModLoader refuses to start unless its free companion app is in your Steam library, and the answer is to add that app, not to patch the check. If a tool only works by disabling DRM or defeating an ownership check, that's the line.
 
-Takedowns happen even without shipping assets. Take-Two had GitHub remove re3 and reVC, the reverse-engineered GTA III and Vice City code, and later sued the authors. Activision sent a cease-and-desist to the H2M mod the day before its launch. Keeping game files out of your repo is necessary, not sufficient.
+There is a legal reason this rule is drawn where it is, and it is worth knowing because it covers more cases than the tModLoader example. Circumventing a technological protection measure is a **separate** infringement from copying, and it stands on its own. A mod can be entirely lawful and still unlawful to install if getting it in means getting past protection. Using a loader the publisher ships, or that the community maintains openly, is a different act from patching a check out of an executable.
+
+**One more rule that catches people out**, and it is not about DRM at all. Courts treat **identical bugs and identical dead code** as the strongest available evidence that you copied rather than wrote independently. Two people implementing the same specification do not independently arrive at the same broken edge case. If your code and the original share a pointless quirk, you copied it. Rewrite those on purpose and leave a comment saying why.
+
+That one matters more with an agent than with a person, because an agent working from decompiled output reproduces structure faithfully, pointless parts included. [Guide 13](13-reverse-engineering-and-the-law.md#doing-this-with-an-agent) covers how to prompt around it.
+
+Takedowns happen even without shipping assets. Take-Two had GitHub remove re3 and reVC, the reverse-engineered GTA III and Vice City code, and later sued the authors. Activision sent a cease-and-desist to the H2M mod the day before its launch. Garry's Mod removed twenty years of Nintendo-related Workshop content after a takedown request. Keeping game files out of your repo is necessary, not sufficient.
+
+If that happens to you, there is a formal route rather than just deleting and hoping, and it has deadlines and perjury attestations in it. Read it in [LEGAL.md](../LEGAL.md#if-your-repository-gets-a-takedown) before you reply to anyone, and get a lawyer before you file anything.
 
 If you're unsure where a line is, ask. Nobody gets in trouble for asking first.
 

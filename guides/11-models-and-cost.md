@@ -12,6 +12,9 @@ What to pay, and what to point it at. Everything here was checked against the pr
 | $40 | OpenCode Go Plus | More of the same models. Rarely the best call over Claude Pro |
 | $100 | Claude Max 5x | For when $20 runs out mid-project |
 | $200 | Claude Max 20x | Only once you've proven you need it |
+| Pay per token | Any provider's API, usually via OpenRouter | When usage caps are the problem rather than budget |
+
+Reach for a different model and the price moves a lot. DeepSeek V4.1 Flash is $0.15 and $0.60 per million tokens off-peak through OpenCode Go, and a direct API comes out close to that. Claude's current flagship, Opus 5.5, is $4 and $20. Per token means you never hit a wall, and you also never get a flat monthly rate, which suits people who work in bursts.
 
 ## About $10: OpenCode Go
 
@@ -56,6 +59,29 @@ Max is monthly only. Upgrading mid-cycle charges prorated.
 
 If you're paying per token instead, a route that works: OpenRouter with a strong open model. One member uses VS Code plus Roo Code with OpenRouter and a DeepSeek model because a Claude plan was out of reach.
 
+### Two things that change the bill more than the model
+
+Both matter more here than in most projects, because this work is context-heavy. You are feeding the agent decompiled output, whole repositories, and design docs.
+
+**Context window is 1M tokens on both main options, at standard price.** DeepSeek V4.1 Flash has a 1M context. Opus 5.5 includes the full 1M window at the normal per-token rate, so a 900k request costs the same rate as a 9k one. There is no long-context surcharge to worry about. DeepSeek caps output at 384K.
+
+**Prompt caching cuts the cost of repeating context by 90%.** A cache read bills at 0.1x the base input price. Writing to the 5-minute cache costs 1.25x base input, so caching pays for itself after one read. The 1-hour cache costs 2x, so it needs two reads to break even. Both DeepSeek and Claude support it.
+
+That matters because the expensive thing in a long modding session is the same repository and the same decompiled files going back in on every turn. Cache the stable prefix and stop paying full price for it.
+
+Ask the agent to enable it rather than assuming it is on:
+
+```
+This project has a large stable context: docs/DESIGN.md, the game format
+spec, and the files we've already analysed. Enable prompt caching on that
+prefix so we stop paying full input price for it every turn. Show me the
+cache hit rate in the usage output.
+```
+
+**Batch API is half price** on both input and output, for work that can happen in the background. Re-compiling a batch of assets or running the same analysis over a hundred data files is the case for it. It is no use for interactive work, since the results come back later.
+
+One caveat on Claude specifically: Opus 5.5 uses a newer tokenizer that produces roughly 30% more tokens for the same text than earlier models did. Comparing two models on cost without checking which tokenizer they use is comparing different units.
+
 ## Where we don't currently recommend OpenAI
 
 We're not recommending OpenAI or ChatGPT models right now, for two reasons: our experience is that they're less capable on this kind of work than Claude at comparable tiers, and they give less usable usage per subscription.
@@ -71,6 +97,17 @@ Before spending anything:
 - **Free models inside OpenCode.** Several are free for a limited time, including DeepSeek-adjacent options and some stealth models. Free models get cut off and rate-limited, so treat them as good for learning the workflow and bad for a serious project.
 - **Local models on your own hardware.** One experienced member says they don't work well for this. A 12 GB GPU isn't enough for a good local coding model. Your GPU being a 5090 makes no difference to a cloud model, since that work runs on the provider's servers.
 - **Pay-per-token APIs.** Cheap enough to try something, and you stop when you stop. Good for a weekend project, bad for anything long.
+- **Cheaper Claude tiers.** Running Sonnet instead of a top model costs less per token and is usually good enough for the bulk of a project. Save the expensive model for the part where you're stuck.
+
+## What a plan gets you that tokens don't
+
+Subscription plans aren't only about price. Three things are easier on a plan and awkward per token:
+
+- **No usage ceiling.** Per-token billing means a runaway loop costs real money instead of hitting a wall.
+- **Priority access.** Max plans get served ahead of free users at busy times, which matters when you're mid-project.
+- **Credits included.** Paid plans come with usage credits for image and asset generation, which you otherwise buy separately.
+
+The reason people stay on a subscription is the ceiling, not the price. Predictable, short work is cheaper per token.
 
 ## What we don't know yet
 
@@ -86,5 +123,6 @@ If you find out, post it on the Discord or open a pull request.
 - [Claude pricing](https://claude.com/pricing) and [Max plan details](https://support.claude.com/en/articles/11049741-what-is-the-max-plan)
 - [OpenCode Go](https://opencode.ai/go) and [Zen pricing](https://opencode.ai/docs/zen/)
 - [DeepSeek API pricing](https://api-docs.deepseek.com/quick_start/pricing)
+- [Claude API pricing](https://platform.claude.com/docs/en/about-claude/pricing), which is the fuller page and has the per-model table the marketing page hides
 
 Subscribe to a monthly plan rather than annual until you know how much you use. The annual discount is 15% on Claude Pro, which isn't worth paying for a plan you might outgrow in a month.

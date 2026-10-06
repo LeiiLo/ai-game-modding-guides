@@ -151,6 +151,6 @@ coding agents.
 
 ## A note on unfinished work
 
-#share-your-projects takes work-in-progress posts, not just finished ones. A half-working project with an honest "what doesn't work" section is more useful than nothing, and it's how people find collaborators. Say what you've got and what's broken.
+#share-your-projects takes work-in-progress posts as well as finished ones. A half-working project with an honest "what doesn't work" section is more useful than nothing, and it's how people find collaborators. Say what you've got and what's broken.
 
 Only post if you made it. No assets, no leaked material, and a repo link rather than a direct download.

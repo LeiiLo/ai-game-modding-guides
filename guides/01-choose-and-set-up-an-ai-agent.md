@@ -2,7 +2,7 @@
 
 ## Agent vs. chat website
 
-This is where most people get stuck.
+Most people get stuck on this one.
 
 - **A chat website** (claude.ai in the browser, ChatGPT in the browser) only sees what you paste or upload. It can't open your game folders, so you hit "file too large" errors and end up copy-pasting code by hand.
 - **An agent** runs on your PC. It reads your game folders, creates and edits files, runs builds, and reads logs. Nothing to upload.

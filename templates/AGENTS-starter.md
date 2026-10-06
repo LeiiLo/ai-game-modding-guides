@@ -58,7 +58,7 @@ Copy the block below into your project root as `AGENTS.md`, fill in the brackete
   hours.
 - If you hit something you cannot solve after two real attempts, stop and write
   up `STATUS.md` (see `STATUS-handoff.md`) instead of trying variations at random.
-- Record failures, not just successes. A dead end I can see is worth more than a
+- Record failures alongside successes. A dead end I can see is worth more than a
   dead end I have to watch you repeat.
 
 ## Keep these files updated

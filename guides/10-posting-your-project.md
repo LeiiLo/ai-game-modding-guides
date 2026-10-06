@@ -4,7 +4,7 @@ You've got something that runs. Now you want people to find it, and you don't wa
 
 ## What to post, and where
 
-Post to **#share-your-projects** on the Discord so the right people see it. Rough work-in-progress posts are welcome there, not just finished ones.
+Post to **#share-your-projects** on the Discord so the right people see it. Half-working projects are welcome there, not only finished ones.
 
 Put your project on **GitHub** and link the repo if you want other people to be able to use it. A repo is strongly recommended. A direct download link isn't.
 
@@ -34,6 +34,8 @@ Go through this list. It takes five minutes and prevents every problem we've see
 - [ ] README mentions you used AI
 - [ ] Any release zip was checked for game files
 - [ ] It was tested on a clean machine, not only your own
+
+Two of those catch the most common problems. `git log --all --stat` is the one people skip, and it's the only way to find an asset that got committed three weeks ago and then deleted. `git ls-files | xargs du -h | sort -rh | head -20` catches a 400 MB texture someone added before setting up the whitelist.
 
 ### If you already committed game files
 
@@ -125,6 +127,8 @@ Keep it short. The README does the detail.
 **Tested on:** Windows [version], GPU [model]
 **Tested how:** [installed on a clean machine / only on my own PC]
 ```
+
+The last line matters more than it looks. Saying you only tested on your own machine tells the reader exactly how much to trust the post, and it saves you a support thread where someone discovers a problem you could have warned them about.
 
 ### Tags and format
 
