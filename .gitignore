@@ -1,6 +1,7 @@
 # Repo's own files — these are never game content
 README.md
 CONTRIBUTING.md
+LEGAL.md
 LICENSE
 
 # Guides and templates
@@ -18,12 +19,19 @@ templates/**
 # ...then include these
 !README.md
 !CONTRIBUTING.md
+!LEGAL.md
 !LICENSE
 !.gitignore
 !guides/
 !templates/
 !guides/*.md
 !templates/*.md
+
+# A whitelist fails silently. A new file you created is ignored, git says
+# nothing, `git add -A` looks like it worked, and the file never ships. After
+# adding any new document here, run:
+#   git check-ignore -v <file>
+# If it prints a rule, that file is ignored. `git status` will not tell you.
 
 # If you keep screenshots or docs assets, add them explicitly, e.g.:
 # !docs/
