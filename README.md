@@ -76,7 +76,7 @@ Drop these into your own project.
 | [IW4L](https://github.com/vladtrc/iw4L) | Rust/Bevy runtime for Modern Warfare 2 (2009), reading your own install. Experimental, and honest about it |
 | [gang-beasts-rust](https://github.com/muffinmxn/gang-beasts-rust) | Rust/Bevy rewrite with Python extractors and a whitelist `.gitignore` |
 | [benilla](https://github.com/samwhosung/benilla) | A large Rust/Bevy rewrite (a WoW 1.12.1 client) |
-| [universal-modder](https://github.com/rehan-remade/universal-modder) | Skills and tools that guide an AI agent through modding a game |
+| [universal-modder](https://github.com/rehan-remade/universal-modder) | Ten agent skills, a CLI, and a knowledge base of per-game field notes |
 
 Finished open-source engine reimplementations, if you want to see what the long game looks like: [OpenMW](https://github.com/OpenMW/openmw), [OpenRCT2](https://github.com/OpenRCT2/OpenRCT2), [OpenTTD](https://github.com/OpenTTD/OpenTTD).
 

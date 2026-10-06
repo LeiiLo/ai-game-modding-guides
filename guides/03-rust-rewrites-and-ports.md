@@ -54,9 +54,24 @@ Tools, in the order members mention them:
 
 | Tool | Cost | Notes |
 |------|------|-------|
-| **Ghidra** | Free, open source | The one people use. Needs a Java runtime, and a processor module for some older consoles |
-| **IDA Pro** | Commercial, expensive | The industry standard. Free tier is limited. Ghidra is the default recommendation |
+| **Ghidra** | Free, open source | The one people use. Needs a Java runtime, and a processor module for some older consoles. Has an [MCP server](https://github.com/bethington/ghidra-mcp) |
+| **IDA Pro** | Commercial, expensive | The industry standard, with an [official MCP server](https://github.com/HexRaysSA/ida-mcp) from Hex-Rays. Free tier is limited |
 | **Binary Ninja** | Commercial, cheaper than IDA | Worth knowing about, though nobody here has reported using it |
+
+**The bigger question is what the code is.** Picking the wrong tool for the language wastes days, so check this before installing anything:
+
+| What the game uses | What to reach for |
+|---|---|
+| Managed .NET (Terraria, Stardew, Celeste, most Unity on Mono) | [ILSpy](https://github.com/icsharpcode/ilspy). Decompiles to readable C#, and `ilspycmd` emits a whole project you can search |
+| Unity IL2CPP | [Cpp2IL](https://github.com/SamboyCoding/Cpp2IL) against `GameAssembly.dll` plus `global-metadata.dat`, then Ghidra for the method bodies, which are native |
+| Java | Vineflower, CFR or Recaf |
+| Native C/C++ | Ghidra or IDA, driven through an MCP server so the agent can decompile and rename functions itself |
+| Live memory | Cheat Engine for a value scan, x64dbg for breakpoints, Frida to hook functions |
+| Rendering | RenderDoc to capture a frame and see every draw call and render target |
+
+Two limits on Cpp2IL worth knowing before you commit an afternoon: its analysis does not work for games targeting Unity 2020.2 or later, and it produces pseudocode and textual analysis rather than real IL.
+
+Driving a decompiler through an MCP server is what changes the workflow. Without one you paste disassembly into a chat and paste it back. With one the agent reads the decompiler directly, so ask it to find a function or rename everything it understands.
 
 One member asked the agent to decompile a folder "using the correct tools," and it identified the platform and format, installed Ghidra with the right processor module, and ran the process. That's a realistic workflow.
 

@@ -22,7 +22,11 @@ Members mostly use these. Pick one and stick with it while you learn.
 
 ### A note on "MCP"
 
-Several people confused these. **Claude Code and Codex are agents.** MCP (Model Context Protocol) is a standard for plugging extra tools into an agent. You do **not** need any MCP server to start. None of the example projects list one as a requirement.
+Several people confused these. **Claude Code and Codex are agents.** MCP (Model Context Protocol) is a standard for plugging extra tools into an agent.
+
+You do **not** need any MCP server to start. None of the example projects list one as a requirement.
+
+If you go on to reverse engineer anything, that's when one becomes worth having. Ghidra and IDA both ship MCP servers, which means the agent can decompile and rename functions itself instead of you pasting disassembly into a chat. The official [Hex-Rays IDA MCP](https://github.com/HexRaysSA/ida-mcp) installs with one command, and [ghidra-mcp](https://github.com/bethington/ghidra-mcp) does the same for the free option.
 
 ### What the agent is
 
@@ -72,7 +76,7 @@ Agents can read and delete files, and many members run them with broad access. T
 
 - **VS Code** (or another editor) with your agent's extension. One experienced member recommends this so you get proper versioning and file views. It isn't required.
 - **Git and a GitHub account.** You'll need these to share your project.
-- **[universal-modder](https://github.com/rehan-remade/universal-modder):** a toolkit of skills that walks an agent through modding a game: recon, reverse engineering, testing, and publishing. It works with Claude Code, Codex, Cursor, Gemini CLI, Copilot, and OpenCode. Its install steps are in its README. Its optional art tools need a separate API key. It limits itself to single-player or offline games you own, and it won't touch anti-cheat.
+- **[universal-modder](https://github.com/rehan-remade/universal-modder):** an open-source set of ten agent skills plus a CLI, covering game recon, reverse engineering, asset generation, in-game testing, publishing, and a shared knowledge base of field notes. Install it with `npx skills add https://github.com/rehan-remade/universal-modder`, or clone the repo and start your agent inside it. Works with Claude Code, Codex, Cursor, Gemini CLI, Copilot and OpenCode. Its art tools need a separate fal API key, and it needs Python 3.10+ and ffmpeg. It limits itself to single-player or offline games you own and won't touch anti-cheat.
 
 ---
 

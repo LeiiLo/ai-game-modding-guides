@@ -26,8 +26,19 @@ The template in [`AGENTS-starter.md`](../templates/AGENTS-starter.md) includes t
 
 ## Single-player and offline only
 
-- **Don't mod online games with anti-cheat.** You can get banned. Members report that Claude won't help circumvent anti-cheat, and the universal-modder toolkit also limits itself to single-player or offline games and stays away from anti-cheat.
+- **Don't inject code into an online client.** Kernel and user-mode anti-cheat are a stop sign: Easy Anti-Cheat, BattlEye, Vanguard, EA Javelin, Ricochet, ACE, nProtect, XIGNCODE and mhyprot. You can get banned. Members report that Claude won't help circumvent anti-cheat, and the universal-modder toolkit also limits itself to single-player or offline games and stays away from anti-cheat.
 - If your game has an online mode, work in its single-player or offline mode only.
+- Tools running next to a protected game can trip its anti-cheat even when you never touch it. Close the game before a reverse engineering session.
+
+## Don't automate the person's keyboard
+
+This one gets forgotten because it's not about the game's rules, it's about whoever is sitting at the machine.
+
+Automation that drives mouse and keyboard takes over their input. Ask before starting a long automated session while they're at the PC, and check the window is idle first.
+
+Ask before any of these, too: installing a loader into a game folder, changing registry or graphics settings, deleting anything, or publishing on their behalf.
+
+And don't kill processes with a wildcard matcher. `pkill -f` matches your own shell. Kill by exact process ID.
 
 This is the rule people break most often, usually by accident. If someone asks you to add an online game's content to a project, that's the line. See the "Ideas that don't work" table in [guide 2](02-passthrough-mods.md).
 
@@ -50,6 +61,10 @@ Reverse engineering is a normal part of this work, and [guide 3](03-rust-rewrite
 - Making a tool whose purpose is to bypass access controls
 
 A version downgrader sits on the fine side. It exists so a copy you own reaches the build a mod was written against, and it does nothing to the protection on the disc.
+
+The general principle: when a loader checks that you own the game, satisfy the check the intended way. tModLoader refuses to start unless its free companion app is in your Steam library, and the answer is to add that app, not to patch the check. If a tool only works by disabling DRM or defeating an ownership check, that's the line.
+
+Takedowns happen even without shipping assets. Take-Two had GitHub remove re3 and reVC, the reverse-engineered GTA III and Vice City code, and later sued the authors. Activision sent a cease-and-desist to the H2M mod the day before its launch. Keeping game files out of your repo is necessary, not sufficient.
 
 If you're unsure where a line is, ask. Nobody gets in trouble for asking first.
 

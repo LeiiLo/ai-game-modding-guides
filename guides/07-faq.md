@@ -37,7 +37,10 @@ Games with no mod loader and no source. If the host game has nothing, you're rev
 Depends on the kind of project. A passthrough mod needs the host game running, and every example in these guides is Windows-only because the mod loaders are Windows tools. You'd be running the game under Wine or Proton and debugging it yourself. A Rust rewrite is different: the engine is your own code, so it builds for your OS, and IW4L documents Linux and macOS steps. Your own copy of the game still has to be readable from that OS though. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
 
 **SkyCraft or universal-modder, which do I use?**
-They do different jobs. SkyCraft is a working passthrough mod you read and adapt; universal-modder is a set of skills that walks an agent through modding any game, including recon and reverse engineering. If you want Minecraft in Skyrim, use SkyCraft. If you're starting from a game nobody has touched, universal-modder may help.
+They do different jobs. SkyCraft is a working passthrough mod you read and adapt; [universal-modder](https://github.com/rehan-remade/universal-modder) is ten agent skills plus a CLI that walks an agent through modding any game, including recon and reverse engineering. If you want Minecraft in Skyrim, use SkyCraft. If you're starting from a game nobody has touched, universal-modder is the better starting point.
+
+**What if my game doesn't have a loader?**
+You have more options than "give up" or "reverse engineer the whole thing". Work down this list and take the first one that reaches your idea: edit the game's data files directly, patch managed code with Harmony or Mixin, use native hooks on a C/C++ engine, or only then reimplement. Most ideas that look like they need a native hook turn out to be a data edit. [Guide 8](08-mod-loaders-and-script-extenders.md#which-route-is-cheapest) has the table.
 
 **How do I move a character or asset from one game into the other?**
 The usual answer is an extractor plus a converter, and you write your own code for it. One member has the agent write an asset extractor so players can pull what they need from their own copies. Don't extract assets into your repo. See [guide 6](06-rules-legal-and-publishing.md).
@@ -63,7 +66,9 @@ You're probably using a chat website. You need an agent that runs on your PC and
 The agent doesn't need the game running to read your files or write code. You do need the games running to playtest. For passthrough mods, both games run together when you test.
 
 **What MCP servers do I need?**
-None to start. Claude Code and Codex are agents. MCP (Model Context Protocol) is a standard for plugging extra tools into an agent, and it's optional. None of the example projects list one as a requirement.
+None to start. Claude Code and Codex are agents, and MCP (Model Context Protocol) is a standard for plugging extra tools into one. None of the example projects list a server as a requirement.
+
+Worth adding if you go on to reverse engineer: both [Ghidra](https://github.com/bethington/ghidra-mcp) and [IDA](https://github.com/HexRaysSA/ida-mcp) ship MCP servers, so the agent can decompile and rename functions itself instead of you pasting disassembly into a chat. The IDA one is official from Hex-Rays and installs with one command.
 
 **Can I use a free plan?**
 Not confirmed for a real project. Members expect to hit limits quickly. Free models inside OpenCode work for learning the workflow but get cut off and rate-limited. Pay-per-use API keys are another route. See [guide 11](11-models-and-cost.md).
@@ -101,7 +106,13 @@ No, but one experienced member recommends VS Code so you get proper versioning a
 Usually not. For a SkyCraft-style passthrough mod you need a way to run code inside the host game, not decompilation. For rewrites, check for existing format documentation and open-source readers first; decompiling is a last resort. [Guide 3](03-rust-rewrites-and-ports.md) covers when and how, including which tool to use.
 
 **Which tool is best for decompiling: IDA Pro, Ghidra, or Binary Ninja?**
-Ghidra is free, open source, and the one members actually use. IDA Pro is the commercial standard. Binary Ninja sits in between. You can also ask your agent which tool fits your game's format and let it set it up.
+Depends what the code is, which matters more than which decompiler you pick:
+
+- **Managed .NET** (Terraria, Stardew, Celeste, most Unity games built on Mono): [ILSpy](https://github.com/icsharpcode/ilspy) decompiles to readable C#. `ilspycmd` gives you a whole project you can search.
+- **Unity IL2CPP**: [Cpp2IL](https://github.com/SamboyCoding/Cpp2IL) on `GameAssembly.dll` plus `global-metadata.dat`. It recovers types, signatures and dummy DLLs for ILSpy. Two limits worth knowing: its analysis doesn't work for Unity 2020.2 or later, and it generates pseudocode rather than real IL.
+- **Native C/C++**: Ghidra is free and is the one members use. IDA Pro is the commercial standard. Binary Ninja sits in between.
+
+You can also ask your agent which tool fits your game's format and let it set it up.
 
 **Can Unreal Engine games be decompiled?**
 Nobody on the Discord has a confirmed answer. UE4SS exists as a modding and introspection tool, which gets you a long way without decompiling. Ask your agent to check for existing community tooling for your specific title.

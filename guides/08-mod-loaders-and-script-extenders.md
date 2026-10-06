@@ -32,7 +32,24 @@ On GameMaker: there is no GameMaker 3. UndertaleModTool covers GameMaker Studio 
 - **ASI loader**: the smallest possible thing, loading `.asi` DLLs from a folder and doing nothing else. plugin-sdk gives you a real SDK on top of it.
 - **Mod manager**: a tool for installing and versioning other people's mods (MO2, Vortex, r2modman). Useful, not required.
 
-**Key idea:** with a loader, the agent writes your mod against its API and you never touch the original binaries. That's the good path. Without one, the agent has to reverse engineer the game, which is a different and much harder project.
+**Key idea:** with a loader, the agent writes your mod against its API and you never touch the original binaries. That's the good path. Without one, you have more options than "reverse engineer everything". Most games ship their gameplay logic in a data file you can edit directly, even when there's no mod API for it.
+
+## Which route is cheapest?
+
+A loader is the comfortable route, not the only one. Work down this list and take the first one that reaches your idea.
+
+| Route | When it fits | Examples |
+|---|---|---|
+| **Data or assets only** | The idea fits the game's own data files, no code needed | Bethesda ESP and ESL files, Paradox scripts, JSON content packs |
+| **Loader API** | A loader exists and exposes hooks | tModLoader, SMAPI, BepInEx, UE4SS, REFramework, SKSE, Fabric |
+| **Managed-code patching** | .NET, Mono, IL2CPP or Java, but no API for your idea | Harmony, MonoMod, Mixin |
+| **Native hooks** | C/C++ engine with no loader | Proxy DLLs plus MinHook or SafetyHook, signature scans |
+| **Reimplement or decompile** | You want total control, or it's a retro console | N64 and Xbox decomp projects, or a Rust rewrite like IW4L |
+| **Mashup or passthrough** | You're putting one game inside another | See [guide 2](02-passthrough-mods.md) |
+
+The order matters. Plenty of ideas that look like they need a native hook are really a data-file edit, and data edits don't need a loader at all.
+
+Before you commit to any of this, search whether anyone has already done it. A field-note knowledge base exists for exactly this: [universal-modder](https://github.com/rehan-remade/universal-modder) ships one with notes per game covering the versions that worked, the route chosen, and the gotchas, searchable with `um kb search "<game>"`.
 
 ## Why this decides whether your idea is realistic
 
@@ -76,7 +93,7 @@ The most common engine in modern indie games, and the easiest to get into.
 
 - **BepInEx** patches the game at load and loads your C# assemblies. Works with both Mono and IL2CPP builds.
 - **MelonLoader** does the same job with a different API and better support for more title variants. Pick one; don't install both.
-- If the game is IL2CPP, expect an extra step where the original method bodies are stubs. Tools like Il2CppDumper recover the metadata so the loader can build real hooks. Your agent can handle this if you point it at the game directory.
+- **Mono or IL2CPP matters more than which loader you pick.** On Mono builds the game's code is real C#, so [ILSpy](https://github.com/icsharpcode/ilspy) decompiles it directly and you can read the game's own logic. On IL2CPP builds the method bodies are native, so you recover types and signatures with [Cpp2IL](https://github.com/SamboyCoding/Cpp2IL) and then read the bodies in Ghidra. If you don't know which you have, that's the first thing to check.
 
 ### GameMaker
 
