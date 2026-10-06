@@ -16,9 +16,6 @@ No, but it helps. You need to be clear about what you want and what's wrong, and
 **I have never written code. Am I going to be stuck?**
 Less than you think, if you accept the split: the agent writes it, you playtest it and describe what happened. That's the whole job. It's also why [guide 4](04-prompting-and-workflow.md) and [guide 5](05-testing-and-troubleshooting.md) are mostly about *communicating problems* rather than programming.
 
-**Can I make a completely new game instead?**
-Yes. One member is building a basketball game from scratch with open-source assets and animations. The same agent workflow applies.
-
 ## Picking your games
 
 **What do I put in the agent? Do I give it my whole game folder?**
@@ -31,13 +28,13 @@ Check whether the host game has a mod loader or script extender. That's the main
 Maybe. It depends mostly on whether the host game can run your code (script extender, mod loader, plugin system) and whether it's single-player. Members have reported projects like Elden Ring and Spider-Man mechanics and an Octane-style car in Minecraft, but nothing is guaranteed. Search for existing projects and tools for your games first.
 
 **What games are easiest to start with?**
-Minecraft, Skyrim, and Fallout 4, by a wide margin. They have the best-documented loaders in gaming: Fabric for Minecraft, SKSE for Skyrim, F4SE for Fallout 4. Most beginner passthrough projects are built on them. GTA San Andreas and Outer Wilds also have usable loaders, so they aren't out, they're just less common.
+Minecraft, Skyrim, and Fallout 4, by a wide margin. They have the best-documented loaders in gaming: Fabric for Minecraft, SKSE for Skyrim, F4SE for Fallout 4. That's also the direction most existing projects went, so there's code to read. GTA San Andreas and Outer Wilds have usable loaders too, so they're not out, they're just less trodden.
 
 **What are the hardest?**
 Games with no mod loader and no source. If the host game has nothing, you're reverse engineering an engine before you can start. See [guide 8](08-mod-loaders-and-script-extenders.md).
 
 **Can I do this on Linux or macOS?**
-Depends which kind of project. A passthrough mod needs the host game running, and every example in these guides is Windows-only because the mod loaders are Windows tools. You'd be running the game under Wine or Proton and debugging it yourself. A Rust rewrite is a different story: the engine is your own code, and IW4L documents Linux and macOS build steps. Your own copy of the game still has to be readable from that OS. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
+Depends on the kind of project. A passthrough mod needs the host game running, and every example in these guides is Windows-only because the mod loaders are Windows tools. You'd be running the game under Wine or Proton and debugging it yourself. A Rust rewrite is different: the engine is your own code, so it builds for your OS, and IW4L documents Linux and macOS steps. Your own copy of the game still has to be readable from that OS though. See [guide 8](08-mod-loaders-and-script-extenders.md#windows-is-the-common-denominator).
 
 **SkyCraft or universal-modder, which do I use?**
 They do different jobs. SkyCraft is a working passthrough mod you read and adapt; universal-modder is a set of skills that walks an agent through modding any game, including recon and reverse engineering. If you want Minecraft in Skyrim, use SkyCraft. If you're starting from a game nobody has touched, universal-modder may help.
@@ -56,6 +53,9 @@ Sometimes, for reasons other than loaders. Some games ship under publishing rest
 **What AI should I use?**
 Most members use Claude Code with a top Claude model. Codex is also common. See [guide 1](01-choose-and-set-up-an-ai-agent.md).
 
+**Are ChatGPT or OpenAI models any good?**
+They're very good and come with a decent allowance. We don't recommend them right now, because we get less capability and less usable usage per subscription than we do from Claude. If you already pay for one, there's no reason to cancel.
+
 **Why does the AI say my game files are too large?**
 You're probably using a chat website. You need an agent that runs on your PC and reads your files directly. You don't upload anything.
 
@@ -69,7 +69,7 @@ None to start. Claude Code and Codex are agents. MCP (Model Context Protocol) is
 Not confirmed for a real project. Members expect to hit limits quickly. Free models inside OpenCode work for learning the workflow but get cut off and rate-limited. Pay-per-use API keys are another route. See [guide 11](11-models-and-cost.md).
 
 **What's the best value?**
-[OpenCode Go](https://opencode.ai/go) at $10, pointed at DeepSeek V4.1 Flash. Its allowance works out to roughly 26,000 requests per five-hour window on that model. If you're buying one subscription instead of paying per token, Claude Pro at $20 beats anything cheaper.
+[OpenCode Go](https://opencode.ai/go) at $10, pointed at DeepSeek V4.1 Flash. OpenCode estimates roughly 26,000 requests per five-hour window on that model, which is their figure rather than something anyone's measured here. If you're buying one subscription instead of paying per token, Claude Pro at $20 beats anything cheaper.
 
 **Will the $20 plan be enough?**
 Reports vary. One member says it's more than enough for a small project. Another gets about 3-4 hours of heavy use in each 5-hour window on the top model. It depends on how much you do.
@@ -77,17 +77,14 @@ Reports vary. One member says it's more than enough for a small project. Another
 **Should I go straight to the $200 plan?**
 No. Upgrade in order: $20, max it out, then $100, then $200. Two things worth knowing before you do: the 5x and 20x multiples apply to the five-hour session window rather than your weekly allowance, and a weekly cap sits on top either way. See [guide 11](11-models-and-cost.md).
 
-**Are ChatGPT or OpenAI models any good?**
-They're very good and come with a decent allowance. We don't recommend them right now, because we get less capability and less usable usage per subscription than we do from Claude. If you already pay for one, there's no reason to cancel.
-
 **Do long chats burn my usage faster?**
 Yes. The whole conversation is carried along on every turn, so a 300-turn chat costs more per turn than a fresh one. Start a fresh chat with a [`STATUS-handoff.md`](../templates/STATUS-handoff.md) file when things get long. See [guide 4](04-prompting-and-workflow.md).
 
 **Can I run a local model on my own GPU?**
-One experienced member says local models don't work well for this. If you've tried it, please write it up.
+One experienced member says local models don't work well for this, and 12 GB of VRAM isn't enough for a good local coding model. Worth trying if you're curious, but expect to fight it. [Guide 11](11-models-and-cost.md) has the current thinking.
 
 **My GPU doesn't matter then, right?**
-Correct, for cloud models. A 5090 doesn't change anything if you're using Claude or GPT, because the work happens on the provider's servers. It only matters if you're running a local model.
+Correct, for cloud models. A 5090 changes nothing if you're using Claude or GPT, because the work happens on the provider's servers. It only matters if you're running a local model, which is the case above.
 
 **How do I give Codex full access? It keeps failing.**
 Check Codex's documentation for its permission and sandbox settings. Give it access to your project and game folders only. Full access to your whole PC is risky.
@@ -113,13 +110,20 @@ Nobody on the Discord has a confirmed answer. UE4SS exists as a modding and intr
 You don't have to use them. People reach for them because Rust catches memory mistakes before the game runs, setup is easy, Bevy is a free all-code engine, and AI is good at fixing Rust. C and C++ work fine too. The plugins that go inside Skyrim, Fallout 4, and GTA are still C++.
 
 **Do I just download Rust and write my own stuff?**
-For a rewrite you'd install Rust, but the agent writes the code. You also need the game installed and an agent set up.
+For a rewrite you'd install Rust, but the agent writes the code. You also need the game installed and an agent set up. IW4L is the one to read: a Rust and Bevy runtime for Modern Warfare 2 that reads your own install. [Guide 12](12-worked-example-rust-rewrite.md) walks through how it was built, and [guide 3](03-rust-rewrites-and-ports.md) covers the rest.
+
+**Can I make a completely new game instead of modding one?**
+Yes, and it's a smaller job than a rewrite. One member is building a basketball game from scratch with open-source assets and animations. The agent workflow is the same, minus the part where it has to reverse-engineer anything.
 
 **How do I stop the AI from testing visually?**
 Tell it you'll playtest, and have it log numbers and events instead. See [guide 5](05-testing-and-troubleshooting.md).
 
 **How do I make it run smoother?**
-Give the agent frame-time logs from both processes and ask it to profile before changing anything. One member's project got a large frame-rate gain from skipping the hidden window's presentation step. Run the gameplay game headless if you can.
+Give the agent frame-time logs from both processes and ask it to profile before changing anything. OWCraft's notes say skipping the presentation of the hidden window took Minecraft from 25 to 60 fps.
+
+The gameplay game still has to render, though. It's hidden, not headless, because the host composites its offscreen output into its own depth buffer. Making it render nothing would break the visual premise.
+
+Other wins are sending deltas instead of full state, and fixing your update rate. See [guide 9](09-worked-example-passthrough-mod.md#step-8-make-it-not-stutter).
 
 **The mod works but it's janky. Is that normal?**
 Yes, at first. Members describe their projects as "jank as hell but working." Performance and polish come after it functions.
@@ -130,7 +134,9 @@ The only figure anyone here has actually reported is about 3-4 hours of back-and
 ## Rules and sharing
 
 **Can I mod games with anti-cheat?**
-No. You can get banned, and agents won't help circumvent it. Use single-player or offline modes.
+The line is online versus offline, not whether anti-cheat is installed. Rocket League is the clearest case: Easy Anti-Cheat is required for online play and mods don't run while it's on, but turn it off through the game's own option and offline matches, training, LAN, and replays all work with mods.
+
+Anything online is still out, you can get banned, and agents won't help you bypass it. They leave anti-cheat alone by default anyway. See [guide 6](06-rules-legal-and-publishing.md#online-play-and-anti-cheat).
 
 **Can I put game files in my repo?**
 No. See [guide 6](06-rules-legal-and-publishing.md).
@@ -151,14 +157,15 @@ A screenshot or GIF, a real commit history, an honest "what doesn't work" sectio
 
 These came up and nobody has given a confirmed answer. If you know, post it on the Discord, or open a pull request and add it here.
 
-- Which free model works best with OpenCode?
-- Whether free plans can complete a real project (see [guide 11](11-models-and-cost.md))
-- How to decompile Unreal Engine games
-- Whether detailed prompts or short loose prompts are more efficient (people disagree; see the debate section in [guide 4](04-prompting-and-workflow.md))
+- Which free model works best with OpenCode, and whether any of them can finish a real project
+- Whether free plans from the big providers can complete a real project (see [guide 11](11-models-and-cost.md))
+- How to decompile Unreal Engine games. UE4SS gets you a long way without decompiling, but that's not the same answer
+- Whether detailed prompts or short loose prompts are more efficient. People disagree; see the debate section in [guide 4](04-prompting-and-workflow.md)
 - Making games run better on original hardware (such as PS3), and whether emulator research applies
-- Whether local models can handle a real project on a 12 GB GPU
+- Whether local models can handle a real project on 12 GB of VRAM. One member says no, but nobody's written up a proper attempt
 - Whether a passthrough mod can be made to work on Linux or macOS at all
 - Which games have publishing terms that block a port outright, beyond the Halo MCC restrictions
+- Whether a passthrough mod works when the gameplay game only ships a console version, or only as a disc
 
 ---
 

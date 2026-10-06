@@ -54,7 +54,11 @@ Mods and extractors are tied to specific game versions. Some games need a downgr
 Unsigned tools and bundled launchers are sometimes flagged. In one SkyCraft issue, a user reported a Malwarebytes flag on a release zip that didn't show up on a re-scan, and an online scanner showed no detections. It's still worth checking where a file came from and opening an issue on the project.
 
 **It works but it's slow or stutters.**
-Expected, and usually fixable. Ask for frame-time logs from both processes and tell it to profile before changing anything. One member's project got a large frame-rate gain from skipping the hidden window's presentation step. Running the gameplay game headless, sending deltas instead of full state, and fixing your update rate are the other usual wins. See [guide 9](09-worked-example-passthrough-mod.md#step-8-make-it-not-stutter).
+Expected, and usually fixable. Ask for frame-time logs from both processes and tell it to profile before changing anything. OWCraft's notes say skipping the presentation of the hidden window took Minecraft from 25 to 60 fps.
+
+The gameplay game still has to render. It's hidden, not headless, because the host composites its offscreen output into its own depth buffer.
+
+Other wins are sending deltas instead of full state, and fixing your update rate. See [guide 9](09-worked-example-passthrough-mod.md#step-8-make-it-not-stutter).
 
 **The mod works for me but not for a friend.**
 Check that they have both games, the right versions, and the same loaders installed. Ask them for logs.
