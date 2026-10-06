@@ -6,6 +6,18 @@ It is unfinished, and says so: *"Gameplay remains incomplete; expect missing beh
 
 What makes it worth reading is not the engine. It is how a project at this scale handles provenance, licensing, and the line between what an agent wrote and what a person decided.
 
+## Why IW4L and not something else
+
+This page used to cover [mw2-rust-rust-rewrite](https://github.com/Dj-Shortcut/mw2-rust-rust-rewrite), a standalone Rust/Bevy project by Dj-Shortcut that builds on IW4L. That was a fair case study and most of what it got right is still true here, but IW4L is a better example for beginners for three reasons.
+
+It is finished enough to read. Its own `docs/` covers rendering, simulation, map loading, the GSC runtime, bot AI and performance, plus a reproducible test suite. You can follow what a real project does instead of inferring it.
+
+It documents its own provenance. The movement note linked below exists because a contributor raised a licensing question and the maintainer wrote it down. Most projects at this scale never do that.
+
+It states its limits plainly. *"Gameplay remains incomplete; expect missing behavior, bugs and desyncs."* A case study should teach you what a real project looks like mid-flight, not what one looks like in a promo screenshot.
+
+If you came here for the old page: the parts about reverse engineering being part of the history, about checking a dependency's licence rather than assuming it, and about players supplying their own game files all still apply. Nothing in it was wrong.
+
 ## The stack, and what each piece does
 
 | Area | Implementation |
@@ -105,6 +117,7 @@ It also says what a useful bug report contains and what it does not: *"Do not at
 ## Credits
 
 - [IW4L](https://github.com/vladtrc/iw4L) by vladtrc: the runtime this case study is about, and the provenance work worth copying.
+- [mw2-rust-rust-rewrite](https://github.com/Dj-Shortcut/mw2-rust-rust-rewrite) by Dj-Shortcut: the subject of this page before it was replaced. Its original write-up is in this repo's history, and the reverse-engineering, licensing and asset-supply notes in it still apply to projects like this.
 - [OpenAssetTools](https://github.com/Laupetin/OpenAssetTools), [IW4x](https://github.com/iw4x/iw4x-client), [KisakCOD](https://github.com/SwagSoftware/KisakCOD) and Ghidra, credited by IW4L as the research that informed it.
 
 IW4L is unofficial and unaffiliated with the owners of MW2 or its trademarks.
