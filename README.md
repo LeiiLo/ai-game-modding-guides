@@ -11,11 +11,14 @@ Worth saying up front: everyone has their own methods, prompting style, and work
 
 [![Licence: MIT](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
 [![Contributing welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Legal notice](https://img.shields.io/badge/Legal-notice%20and%20takedown%20process-blue.svg)](LEGAL.md)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/ccFpNC26Ts)
 
 > **Status:** draft. Tools, models, plan limits, and mod loaders change fast. Verify a detail before you rely on it.
 >
 > **Single-player and offline games you own only.** Nothing here covers anti-cheat, DRM, or online play. See [the rules](guides/06-rules-legal-and-publishing.md).
+>
+> **Before you publish anything**, read [LEGAL.md](LEGAL.md). It covers what this repository does and does not cover, and what to do if a publisher contacts you or your repo gets taken down. None of it is legal advice.
 >
 > **Platform.** Most passthrough mods target the Windows build of a game, and they aren't guaranteed to work under Wine or Proton. If you've gotten one running that way, please tell us.
 >
