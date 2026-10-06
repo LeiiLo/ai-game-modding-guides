@@ -10,6 +10,8 @@ A passthrough mod needs one thing: **a way to run your own code inside the host 
 
 | Host game | Engine | Loader / extender | Language | Difficulty |
 |-----------|--------|-------------------|----------|-----------|
+| Terraria | XNA / Mono | [tModLoader](https://github.com/tModLoader/tModLoader) | C# | Easy |
+| Stardew Valley | XNA / Mono | [SMAPI](https://github.com/Pathoschild/SMAPI) | C# | Easy |
 | Skyrim / Skyrim SE / AE | Creation Engine | SKSE ([skse.silverlock.org](https://skse.silverlock.org/)) | C++ + Papyrus | Easy |
 | Fallout 4 | Creation Engine | F4SE ([f4se.silverlock.org](https://f4se.silverlock.org/)) | C++ + Papyrus | Easy |
 | Starfield | Creation Engine 2 | Same approach as F4SE | C++ | Medium |
@@ -18,10 +20,22 @@ A passthrough mod needs one thing: **a way to run your own code inside the host 
 | GTA San Andreas / Vice City / GTA III | RenderWare | [plugin-sdk](https://github.com/DK22Pac/plugin-sdk) (ASI / CLEO plugins) | C++ / C | Medium |
 | Most Unity games | Unity | [BepInEx](https://github.com/BepInEx/BepInEx) or [MelonLoader](https://github.com/LavaGang/MelonLoader) | C# | Easy or Medium |
 | Most Unreal games | Unreal | [UE4SS](https://github.com/UE4SS-RE/RE-UE4SS) | Lua | Medium |
+| Red Dead Redemption 2, GTA V, Cyberpunk | RE Engine | [REFramework](https://github.com/praydog/REFramework) | Lua or C# | Medium |
 | GameMaker Studio 1.4 and 2 | GameMaker | [UndertaleModTool](https://github.com/UnderminersTeam/UndertaleModTool) | GML + tool | Medium on Windows only |
 | Ren'Py visual novels | Ren'Py | [Ren'Py SDK](https://www.renpy.org/doc/html/developer_tools.html) | Python | Easy |
 
 The Bethesda script extenders come from `afkmods.com`, and the silverlock.org links above are what SkyCraft and FalloutCraft point people at.
+
+Four of those loaders are big enough to be worth reading as projects in their own right, which matters if you want to see how a mature one is put together:
+
+| Loader | Stars | Licence | Why it's worth a look |
+|---|---:|---|---|
+| [BepInEx](https://github.com/BepInEx/BepInEx) | 8,777 | LGPL-2.1 | The default for Unity and XNA games. Most Unity mod tutorials assume it |
+| [tModLoader](https://github.com/tModLoader/tModLoader) | 5,700 | MIT | Terraria's official modding API, and a good model for how to version a mod API |
+| [REFramework](https://github.com/praydog/REFramework) | 5,575 | MIT | Covers every RE Engine game at once, which no other loader manages |
+| [MelonLoader](https://github.com/LavaGang/MelonLoader) | 4,237 | Apache-2.0 | The main alternative to BepInEx for Unity, and covers more title variants |
+
+Star counts as of October 2026. These four are established projects with years of history, unlike most of the AI-assisted examples in this repo, which are weeks old.
 
 On GameMaker: there is no GameMaker 3. UndertaleModTool covers GameMaker Studio 1.4 and GameMaker Studio 2, bytecode versions 13 through 17. It can't touch YYC-compiled games, and there's no official way to run its GUI on macOS or Linux, so on those platforms you need Wine.
 
@@ -100,6 +114,23 @@ The most common engine in modern indie games, and the easiest to get into.
 - **UndertaleModTool** reads the game's data files and code as text, edits them, and writes them back. It's the most approachable modding target on this list, and a good one to learn on if you want to see how a game works internally.
 - Limits worth knowing: GameMaker Studio 1.4 and GameMaker Studio 2 only (bytecode 13 to 17), no YYC-compiled games, and no official GUI build for macOS or Linux.
 
+### XNA and Mono (.NET games)
+
+Terraria, Stardew Valley, Celeste and a lot of 2D indie games run on XNA, which is .NET underneath. This is the friendliest family after the Bethesda script extenders, because the game's own code is C# and decompiles cleanly.
+
+- **[tModLoader](https://github.com/tModLoader/tModLoader)** is Terraria's modding API and the first thing to reach for there. It requires the free tModLoader app in your Steam library. That's an ownership check, not a DRM bypass: **add the app, don't patch the check.**
+- **[SMAPI](https://github.com/Pathoschild/SMAPI)** is the equivalent for Stardew Valley, and does the same job for Stardew, plus content packs.
+
+Both are well documented, both have large mod communities to read, and both mean the agent writes against a real API instead of guessing at internals.
+
+### RE Engine
+
+Rockstar's engine, shared by GTA V, Red Dead Redemption 2, Cyberpunk 2077 and Baldur's Gate 3.
+
+- **[REFramework](https://github.com/praydog/REFramework)** is a mod loader, scripting platform and VR layer that covers every RE Engine game from one install, which no other loader manages. Scripts in Lua or C#.
+
+The scale is the point. Building something that works across six games with completely different content is a different engineering problem from a loader for one title.
+
 ### Unreal Engine
 
 - **UE4SS** injects a Lua scripting layer, generates a live SDK dump, and gives you a property editor for poking at a running game. The property editor alone makes it good for exploration: you can read the value of anything and find out what a variable does.
@@ -111,11 +142,15 @@ Not loaders, but the same family of work as a rewrite. Worth reading because the
 
 | Project | Original | What it shows |
 |---------|----------|----------------|
-| [OpenMW](https://github.com/OpenMW/openmw) | Morrowind | A full engine reimplementation with a long public history |
 | [OpenRCT2](https://github.com/OpenRCT2/OpenRCT2) | RollerCoaster Tycoon 2 | A polished reimplementation that improved on the original |
 | [OpenTTD](https://github.com/OpenTTD/OpenTTD) | Transport Tycoon Deluxe | Long-running, mature, well-documented |
+| [OpenMW](https://github.com/OpenMW/openmw) | Morrowind | A full engine reimplementation with a long public history |
+| [N64Recomp](https://github.com/N64Recomp/N64Recomp) | Nintendo 64 games | Recompiles retail N64 ROMs to native executables rather than emulating them |
+| [shadPS4](https://github.com/shadps4-emu/shadPS4) | PS4 games | A PS4 emulator that doubles as a compatibility reference |
 
 These took years and many contributors. Read them for structure, not as a template for a weekend project.
+
+N64Recomp is the interesting one for a beginner reading about rewrites, because it shows a different answer to the same question. Rather than reimplementing a game's logic in a new language, it translates the existing machine code into something your CPU runs natively. Much less work than a rewrite, and it only works on closed-source code you already own.
 
 ## How to install a loader
 

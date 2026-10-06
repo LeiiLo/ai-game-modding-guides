@@ -81,8 +81,10 @@ Single-player and offline, always. Two things worth being precise about, because
 - **Keep their licenses.** Add a `THIRD-PARTY-NOTICES.md` listing what you reused and under which license (OWCraft does this).
 - **Pick a license for your own code.** MIT is common among these projects. Without a license, others can't legally reuse your code.
 - **Say it's an unofficial fan project** and not affiliated with the game's developer or publisher.
-- **Say you used AI.** Several example projects have an honest note about it. It helps people judge the project and trust it.
+- **Say you used AI.** Several example projects have an honest note about it. It helps people judge the project and trust it. Undisclosed AI-generated releases get reacted badly to, and some communities ban them outright.
 - **Say what's finished and what isn't.** Test before you claim something works.
+- **Don't ship decompiler output.** Names like `FUN_` or `sub_` in a released mod tell a reviewer the code was decompiled rather than written. Rename them.
+- **Keep retail offsets out.** A hardcoded address from the original executable does nothing in your own build and advertises where the code came from.
 
 If a rights holder asks you to change or remove something, do it. gang-beasts-rust says this in its README, and it's the right default whether or not another project bothers to.
 

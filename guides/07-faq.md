@@ -28,7 +28,7 @@ Check whether the host game has a mod loader or script extender. That's the main
 Maybe. It depends mostly on whether the host game can run your code (script extender, mod loader, plugin system) and whether it's single-player. Members have reported projects like Elden Ring and Spider-Man mechanics and an Octane-style car in Minecraft, but nothing is guaranteed. Search for existing projects and tools for your games first.
 
 **What games are easiest to start with?**
-Minecraft, Skyrim, and Fallout 4, by a wide margin. They have the best-documented loaders in gaming: Fabric for Minecraft, SKSE for Skyrim, F4SE for Fallout 4. That's also the direction most existing projects went, so there's code to read. GTA San Andreas and Outer Wilds have usable loaders too, so they're not out, they're just less trodden.
+Terraria, Stardew Valley, Skyrim, Fallout 4, and Minecraft, by a wide margin. They have the best-documented loaders in gaming: tModLoader and SMAPI for the XNA games, SKSE and F4SE for the Bethesda ones, Fabric for Minecraft. That's also the direction most existing projects went, so there's code to read. Terraria and Stardew are worth knowing about if you assumed you needed Bethesda or Unity, because their games are .NET underneath and decompile to plain C#.
 
 **What are the hardest?**
 Games with no mod loader and no source. If the host game has nothing, you're reverse engineering an engine before you can start. See [guide 8](08-mod-loaders-and-script-extenders.md).

@@ -64,12 +64,16 @@ Tools, in the order members mention them:
 |---|---|
 | Managed .NET (Terraria, Stardew, Celeste, most Unity on Mono) | [ILSpy](https://github.com/icsharpcode/ilspy). Decompiles to readable C#, and `ilspycmd` emits a whole project you can search |
 | Unity IL2CPP | [Cpp2IL](https://github.com/SamboyCoding/Cpp2IL) against `GameAssembly.dll` plus `global-metadata.dat`, then Ghidra for the method bodies, which are native |
-| Java | Vineflower, CFR or Recaf |
+| Java | Vineflower, CFR or Recaf. For Minecraft, use Loom's `genSources` with Mojang mappings |
 | Native C/C++ | Ghidra or IDA, driven through an MCP server so the agent can decompile and rename functions itself |
+| Retail ROMs and disc images | [N64Recomp](https://github.com/N64Recomp/N64Recomp) recompiles N64 games to native executables instead of emulating them. Other consoles have similar tools |
 | Live memory | Cheat Engine for a value scan, x64dbg for breakpoints, Frida to hook functions |
 | Rendering | RenderDoc to capture a frame and see every draw call and render target |
+| Data and asset files | The community tool first. Unity: UABEA or AssetRipper. Unreal: FModel or UAssetGUI. Bethesda: xEdit. GameMaker: UndertaleModTool |
 
 Two limits on Cpp2IL worth knowing before you commit an afternoon: its analysis does not work for games targeting Unity 2020.2 or later, and it produces pseudocode and textual analysis rather than real IL.
+
+**Read the real thing, don't guess.** Decompiler output, the actual data file, a memory read or a GPU capture is the specification. Write down what you learn as you go, with the names, IDs, offsets and formats, because you will need it again in an hour.
 
 Driving a decompiler through an MCP server is what changes the workflow. Without one you paste disassembly into a chat and paste it back. With one the agent reads the decompiler directly, so ask it to find a function or rename everything it understands.
 
