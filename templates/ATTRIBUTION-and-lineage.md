@@ -1,6 +1,6 @@
 # Attribution and lineage
 
-Most projects here build on someone else's: [FalloutCraft](https://github.com/zeyvu/FalloutCraft), [OWCraft](https://github.com/Yaekai/OWCraft) and [LibertyCraft](https://github.com/mrborghini/libertycraft) all start from SkyCraft, and many rewrites start from earlier reverse-engineering work. Saying exactly what you inherited and what you added is good manners, it's often required by the licence, and it's the first thing an experienced reader checks.
+Most projects here build on someone else's: [FalloutCraft](https://github.com/zeyvu/FalloutCraft), [OWCraft](https://github.com/Yaekai/OWCraft) and [LibertyCraft](https://github.com/mrborghini/libertycraft) all start from SkyCraft, and many rewrites start from earlier reverse-engineering work. Saying exactly what you inherited and what you added is good manners, and the licence often requires it.
 
 Copy this to `CREDITS.md`, or add it as a section of your README.
 
@@ -40,7 +40,7 @@ No game files are included. Players use their own copies of [games].
 
 ## Common mistakes
 
-- **No starting commit.** LibertyCraft's history clearly says it forked SkyCraft, but its first commit has no parent, so the exact upstream version it started from can't be recovered. Write it down on day one.
+- **No starting commit.** LibertyCraft's history says it forked SkyCraft, but its first commit has no parent, so the exact upstream version it started from can't be recovered. Write it down on day one.
 - **Inherited docs left as if they were yours.** A forked design document can still describe the original game. Mark it or update it.
 - **Treating a new file name as new code.** Moving upstream helpers into a new file doesn't make them yours.
 - **Removing someone's licence notice because it mentions another game.** Keep it.

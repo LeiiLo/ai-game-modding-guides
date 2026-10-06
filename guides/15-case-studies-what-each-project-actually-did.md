@@ -60,9 +60,9 @@ A single creator built Minecraft 1.21.1 (Fabric) bridges for Monster Hunter: Wor
 **Lessons worth copying:**
 
 - **Same magic number, different meaning.** The two protocols share a magic and version but differ in header size, regions, units and damage meaning. They live in separate folders for that reason. Version your protocol per host.
-- **"Matching frame" is a goal, not a guarantee.** The host keeps eight recent camera poses and prefers the exact matching frame, then an older one, then the last uploaded picture. It logs how often each happened. Log your fallbacks too.
-- **There are limits.** Frames above 1920×1200 fall back to a transparent overlay window with no depth occlusion.
-- **A sync bug in one host and not the other.** The Monster Hunter frame writer's sequence counter doesn't go odd at the start of a write the way its comment says, so a reader could accept a half-written frame. The Elden Ring writer gets it right. It isn't known to cause a visible glitch. It's a good reason to have the agent re-read your sync code against its own comments.
+- **The matching frame doesn't always arrive.** The host keeps eight recent camera poses and prefers the exact matching frame, then an older one, then the last uploaded picture. It logs how often each happened. Log your fallbacks too.
+- **Resolution cap.** Frames above 1920×1200 fall back to a transparent overlay window with no depth occlusion.
+- **A sync bug in one host and not the other.** The Monster Hunter frame writer's sequence counter doesn't go odd at the start of a write the way its comment says, so a reader could accept a half-written frame. The Elden Ring writer gets it right. It isn't known to cause a visible glitch. Have the agent re-read your sync code against its own comments.
 
 ## Case 4. Debugging alignment without fooling yourself: NewVegasCraft
 

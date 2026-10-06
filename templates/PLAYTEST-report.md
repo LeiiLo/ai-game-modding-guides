@@ -2,7 +2,7 @@
 
 Use one of these each time you play a build to check it. It's the evidence behind every "works" in your README. Keep them in `playtests/` or paste them into `MODLOG.md`.
 
-The agent can't watch the game for you ([guide 5](../guides/05-testing-and-troubleshooting.md)). A short, honest report is what turns "I think it works" into something other people can trust.
+The agent can't watch the game for you ([guide 5](../guides/05-testing-and-troubleshooting.md)). A short report lets other people check your "works" instead of taking it on trust.
 
 ## Template
 

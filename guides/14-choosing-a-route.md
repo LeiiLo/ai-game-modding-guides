@@ -2,7 +2,7 @@
 
 "Minecraft in Skyrim" or "Skate 3 in GTA" can mean at least seven different things. They look alike in a video and are built completely differently. Picking the wrong one is the most expensive mistake you can make, because it decides what both games have to support, what every player needs to own, and what can never work.
 
-This guide sorts the routes by the question you're really asking, then gives a real example of each, with what was checked and what wasn't.
+This guide sorts the routes by the question you're asking, then gives a real example of each, with what was checked and what wasn't.
 
 > **Reading the examples.** When a page says something "works", that's the creator's report. Versions move fast, so check each project's current README.
 
@@ -27,7 +27,7 @@ Routes 1 to 3 are the ones people call "passthrough". A few rarer ideas also get
 - **Real behaviour** (Minecraft's own physics, inventory, crafting): you need the real guest game running. That's routes 1 to 3.
 - **Just the look, or a few rules**: convert assets (route 6) or rebuild one mechanic (route 7). These are far smaller jobs.
 
-A common trap: original-looking assets don't mean original physics. Signet's Doom viewer shows Doom-looking walls, but the movement rules are a simplified shared mode, not Doom's engine.
+Original-looking assets don't mean original physics. Signet's Doom viewer shows Doom-looking walls, but the movement rules are a simplified shared mode, not Doom's engine.
 
 ### 2. Who owns the player?
 
@@ -42,7 +42,7 @@ Write this down before any code. It decides the whole transport.
 | [Minecraft × Half-Life](https://github.com/SawyerTheNerd/Minecraft-X-HalfLife) (GoldSrc) | Minecraft | Ladders, `use`, noclip and death hand movement back to Half-Life |
 | [Garry's Redemption](https://github.com/codeByAlexff/garrys-redemption) (design doc) | Hidden Garry's Mod (sandbox and player physics) | RDR2 rendering, AI, law, quests and saves |
 
-The table shows there's no single right answer. The trick is to choose, and to write down how control **comes back** (cutscenes, vehicles, furniture, death).
+There's no single right answer. Pick one, and write down how control **comes back** (cutscenes, vehicles, furniture, death).
 
 ### 3. Can the host draw the guest's world itself?
 
@@ -69,7 +69,7 @@ The guest renders its own world. Its colour, depth and HUD images are copied int
 
 - **Examples:** Minecraft × GTA V (universal-modder example), the CrossOver bridges for Elden Ring and Monster Hunter: World, NewVegasCraft, [Wither Storm](https://github.com/VortexisTV/wither-storm-gta5-passthrough) × GTA V.
 - **What it's good for:** getting something on screen quickly, and reusing one guest across several hosts.
-- **What it costs:** pixels go GPU → CPU → shared memory → GPU every frame. That is not "GPU texture sharing", and it costs upload time. NewVegasCraft's creator reports getting per-frame guest upload from 18.7 ms down to about 5 ms by switching to dynamic textures.
+- **What it costs:** pixels go GPU → CPU → shared memory → GPU every frame. That round trip through the CPU costs upload time. NewVegasCraft's creator reports getting per-frame guest upload from 18.7 ms down to about 5 ms by switching to dynamic textures.
 - **What it can't do on its own:** make guest blocks receive real host shadows, or stop the host's NPCs walking through guest blocks. Those need state exchange as well (route 1). Most real projects are a mix.
 
 ### Route 3. Native geometry and collision transfer

@@ -35,7 +35,7 @@ Three rules that come out of that layout, and that you should ask the agent for 
 
 > A full step-by-step walkthrough of building one of these is in [guide 9](09-worked-example-passthrough-mod.md).
 >
-> "Passthrough" covers several different designs: swapping state, pasting the guest's picture into the host, or having the host draw the guest's meshes. [Guide 14](14-choosing-a-route.md) explains the difference, and [guide 15](15-case-studies-what-each-project-actually-did.md) shows how SkyCraft, LibertyCraft, the CrossOver bridges and others actually did it.
+> "Passthrough" covers several different designs: swapping state, pasting the guest's picture into the host, or having the host draw the guest's meshes. [Guide 14](14-choosing-a-route.md) explains the difference, and [guide 15](15-case-studies-what-each-project-actually-did.md) shows how SkyCraft, LibertyCraft, the CrossOver bridges and others did it.
 
 ## Examples to study
 
