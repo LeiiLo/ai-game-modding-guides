@@ -163,7 +163,7 @@ Other projects load the same engine as a 32-bit DLL inside an older 32-bit host,
 
 **Question it answers:** how do you check a rebuilt mechanic against the real thing?
 
-This mod puts Diablo II-style continuous movement into [DevilutionX](https://github.com/diasurgical/DevilutionX), the rebuilt Diablo I engine. Diablo I's tile occupancy, combat and saves stay underneath.
+This mod puts Diablo II-style continuous movement into DevilutionX, the rebuilt Diablo I engine. Diablo I's tile occupancy, combat and saves stay underneath.
 
 - **A reference oracle.** It compares its movement tables against a user-supplied Diablo II 1.12 `D2Common.dll` and an MIT-licensed reimplementation. The direction table is computed rather than copied from game data.
 - **A way back.** If continuous movement stalls, it re-centres the hero and returns to stock tile walking.
